@@ -1,354 +1,144 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>后台</title>
-    <link rel="stylesheet" href="static/css/admin/simple-line-icons.css">
-    <link rel="stylesheet" href="static/css/admin/fontawesome-all.css">
-    <!-- <link rel="stylesheet" href="./vendor/font-awesome/css/fontawesome-all.css"> -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>login</title>
+<link rel="stylesheet" type="text/css" href="static/css/login/style.css" />
+<link rel="stylesheet" type="text/css" href="static/css/login/body.css"/> 
+<link rel="stylesheet" type="text/css" href="static/css/admin/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="static/css/admin/bootstrap-theme.min.css">
+<style type="text/css">
+body{
+	background:url(static/images/cloud.jpg) 0 bottom repeat-x  #049ec4;
+}
+#content form input[type="password"] {
+	background: #eae7e7 url(static/images/8bcLQqF.png) no-repeat;
+}
+#content form input[type="text"] {
+	background: url(static/images/8bcLQqF.png) 0 -112px no-repeat;
+}
+</style>
+<style type="text/css">
+.nav-ul{
+	background-color:#fff;
+}
+.cover{
+	width:50px;
+	height: 50px;
+	border-radius:50%;
+}
+.navbar-default{
+	/*height: 80px;*/
+	/*margin: 0;*/
+}
+.nav-li{
+	color:#fff;
+}
+.color1{
+	color:blue;
+}
 
-    <link rel="stylesheet" href="static/css/admin/styles.css">
+</style>
 </head>
-<body class="sidebar-fixed header-fixed">
-<div class="page-wrapper">
-    <nav class="navbar page-header">
-        <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
-            <i class="fa fa-bars"></i>
-        </a>
+<body>
+	<div class="header">
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="#">
+		        <img alt="Brand" src="static/images/cover.jpg" class="cover">
+		      </a>
+		    </div>
+		    <!-- <span id="time" class="navbar-text navbar-link text-center text-justify" >time</span> -->
+		    <p class="navbar-text navbar-right"><a href="#" class="navbar-link" style="padding-right: 10px;">logout</a></p>
+		  </div>
+		</nav>
+	</div>
+	<!-- <ul class="nav nav-pills nav-stacked nav-ul">
+		<li class="nav-li">navbar navbar-inverse</li>
+		<li>2</li>
+		<li>3</li>
+		<li>4</li>
+	</ul> -->
+		<ul class="nav nav-pills nav-stacked">
+			<li role="presentation" class="dropdown">
+			<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+			  首页
+			</a>
+			</li>
+			<li role="presentation" class="dropdown">
+			<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+			  文章<span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu">
+			  <li>Dropdown1</li>
+			  <li>Dropdown2</li>
+			  <li>Dropdown3</li>
+			  <li>Dropdown4</li>
+			</ul>
+			</li>
+		</ul>
 
-        <a class="navbar-brand" href="#">
-            <img src="./imgs/logo.png" alt="logo">
-        </a>
-
-        <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
-            <i class="fa fa-bars"></i>
-        </a>
-
-        <ul class="navbar-nav ml-auto">
-            
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="./imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
-                    <span class="small ml-1 d-md-down-none">nee</span>
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-right">
-                    <div class="dropdown-header">Account</div>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-user"></i> Profile
-                    </a>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-envelope"></i> Messages
-                    </a>
-
-                    <div class="dropdown-header">Settings</div>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-bell"></i> Notifications
-                    </a>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-wrench"></i> Settings
-                    </a>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa fa-lock"></i> Logout
-                    </a>
-                </div>
-            </li>
-        </ul>
-    </nav>
-
-    <div class="main-container">
-        <div class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="nav">
-                    <li class="nav-title">Navigation</li>
-
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link active">
-                            </i> Dashboard
-                        </a>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            Layouts <i class="ioc"></i>
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="layouts-normal.html" class="nav-link">
-                                    Normal
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="layouts-fixed-sidebar.html" class="nav-link">
-                                    Fixed Sidebar
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="layouts-fixed-header.html" class="nav-link">
-                                    Fixed Header
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="layouts-hidden-sidebar.html" class="nav-link">
-                                    Hidden Sidebar
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            UI Kits
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="alerts.html" class="nav-link">
-                                   Alerts
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="buttons.html" class="nav-link">
-                                    Buttons
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="cards.html" class="nav-link">
-                                    Cards
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="modals.html" class="nav-link">
-                                    Modals
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="tabs.html" class="nav-link">
-                                    Tabs
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="progress-bars.html" class="nav-link">
-                                    Progress Bars
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="widgets.html" class="nav-link">
-                                    Widgets
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            Charts
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="chartjs.html" class="nav-link">
-                                   Chart.js
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="forms.html" class="nav-link">
-                            Forms
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="tables.html" class="nav-link">
-                            Tables
-                        </a>
-                    </li>
-
-                    <!-- <li class="nav-title">More</li> -->
-
-                    <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
-                            Pages
-                        </a>
-
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a href="blank.html" class="nav-link">
-                                    Blank Page
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="login.html" class="nav-link">
-                                    Login
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="register.html" class="nav-link">
-                                    Register
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="invoice.html" class="nav-link">
-                                    Invoice
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="404.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> 404
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="500.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> 500
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="settings.html" class="nav-link">
-                                    <i class="icon icon-umbrella"></i> Settings
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-        <div class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">54</span>
-                                    <span class="font-weight-light">Total Users</span>
-                                </div>
-
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-people"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">$32,400</span>
-                                    <span class="font-weight-light">Income</span>
-                                </div>
-
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-wallet"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">900</span>
-                                    <span class="font-weight-light">Downloads</span>
-                                </div>
-
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-cloud-download"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="card p-4">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="h4 d-block font-weight-normal mb-2">32s</span>
-                                    <span class="font-weight-light">Time</span>
-                                </div>
-
-                                <div class="h2 text-muted">
-                                    <i class="icon icon-clock"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row ">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                Total Users
-                            </div>
-
-                            <div class="card-body p-0">
-                                <div class="p-4">
-                                    <canvas id="line-chart" width="100%" height="20"></canvas>
-                                </div>
-
-                                <div class="justify-content-around mt-4 p-4 bg-light d-flex border-top d-md-down-none">
-                                    <div class="text-center">
-                                        <div class="text-muted small">Total Traffic</div>
-                                        <div>12,457 Users (40%)</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Banned Users</div>
-                                        <div>95,333 Users (5%)</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Page Views</div>
-                                        <div>957,565 Pages (50%)</div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <div class="text-muted small">Total Downloads</div>
-                                        <div>957,565 Files (100 TB)</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="static/js/admin/jquery.min.js"></script>
-<script src="static/js/admin/popper.js/popper.min.js"></script>
-<script src="static/js/admin/bootstrap.min.js"></script>
-<!-- <script src="static/js/admin/chart.min.js"></script> -->
-<script src="static/js/admin/carbon.js"></script>
-<script src="static/js/admin/demo.js"></script>
+	<div class="container">
+	</div>
+<!-- container -->
+	<div class="footer" ></div>
 </body>
+
+<script type="text/javascript" src="static/js/jquery.js"></script>
+<script type="text/javascript" src="static/js/jsencrypt.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/esm/popper-utils.js"></script> -->
+<!-- <script type="text/javascript" src="static/js/admin/bootstrap.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!-- <script type="text/javascript">
+	window.onload = mytime;
+	function mytime() {
+    var time=document.getElementById('time');
+    var mydate=new Date();
+    var y=mydate.getFullYear();
+    var m=mydate.getMonth()+1;
+    var d=mydate.getDate();
+    var h=mydate.getHours();
+    var min=mydate.getMinutes();
+    var s=mydate.getSeconds();
+    if(s<10){
+    	s = '0'+s;
+    }
+    time.innerHTML = y+'/'+m+'/'+d+','+h+':'+min+':'+s;
+    parseInt(Math.random()*5,10)+1;
+	Math.floor(Math.random()*5)+1;
+	var math = Math.ceil(Math.random()*5);
+    setTimeout(mytime,1000);
+    }
+</script> -->
+<script type="text/javascript">
+	var public_key = $("#text").val();
+	var encrypt = new JSEncrypt();
+    encrypt.setPublicKey(public_key);
+
+	$("#submit").click(function (){
+
+		var encrypted = encrypt.encrypt($("#password").val());
+		// var data = new array();
+		var user = $("#username").val();
+		var password = encrypted;
+
+		if($("#password").val() !=''){
+			$.ajax({
+				url:'http://127.0.0.1:8088/login',
+				type:'post',
+				data:{'username':user,'password':password},
+				dataType:'json',
+				headers:{'key':'value'},
+				success:function(r){
+					console.log(r);
+				},
+				error:function(e){
+					console.log(e);
+				}
+			});
+		}
+	});
+</script>
 </html>
