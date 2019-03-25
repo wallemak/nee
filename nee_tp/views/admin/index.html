@@ -10,6 +10,7 @@
 <style type="text/css">
 body{
 	background:url(static/images/cloud.jpg) 0 bottom repeat-x  #049ec4;
+	/*background-size:100% 100%;  */
 }
 #content form input[type="password"] {
 	background: #eae7e7 url(static/images/8bcLQqF.png) no-repeat;
@@ -27,15 +28,23 @@ body{
 	height: 50px;
 	border-radius:50%;
 }
-.navbar-default{
-	/*height: 80px;*/
-	/*margin: 0;*/
-}
+
 .nav-li{
 	color:#fff;
 }
-.n-left{
-	width: 100px;
+.nav-left{
+	padding: 10px;
+	margin-left:15px; 
+	display: inline-block;
+	width: 120px;
+	border:1px solid #ced7ce;
+	border-right: 3px solid #ced7ce;
+	border-bottom: 3px solid #ced7ce;
+}
+.content{
+	border:1px solid #ced7ce;
+	border-right: 3px solid #ced7ce;
+	border-bottom: 3px solid #ced7ce;
 }
 
 </style>
@@ -50,7 +59,10 @@ body{
 		      </a>
 		    </div>
 		    <!-- <span id="time" class="navbar-text navbar-link text-center text-justify" >time</span> -->
-		    <p class="navbar-text navbar-right"><a href="#" class="navbar-link" style="padding-right: 10px;">logout</a></p>
+		    <p class="navbar-text navbar-right">
+		    	<a href="#" class="navbar-link" style="padding-right: 20px;">博客主页</a>
+		    	<a href="#" class="navbar-link" style="padding-right: 20px;">logout</a>
+		    </p>
 		  </div>
 		</nav>
 	</div>
@@ -60,26 +72,38 @@ body{
 		<li>3</li>
 		<li>4</li>
 	</ul> -->
-		<ul class="nav nav-pills nav-stacked n-left">
-			<li role="presentation" class="dropdown">
-			<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-			  首页
-			</a>
-			</li>
-			<li role="presentation" class="dropdown">
-			<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-			  文章<span class="caret"></span>
-			</a>
-			<ul class="dropdown-menu">
-			  <li>Dropdown1</li>
-			  <li>Dropdown2</li>
-			  <li>Dropdown3</li>
-			  <li>Dropdown4</li>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-1 nav-left" >
+			<ul class="nav nav-pills nav-stacked">
+				<li role="presentation" class="dropdown">
+				<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+				  首页
+				</a>
+				</li>
+				<li role="presentation" class="dropdown">
+					<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+					  document
+					</a>
+					<!-- <ul class="dropdown-menu">
+					 ...
+					</ul> -->
+				</li>
+				<li role="presentation" class="dropdown">
+					<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+					  document2
+					  <!-- <span class="caret"></span> -->
+					</a>
+				</li>
 			</ul>
-			</li>
-		</ul>
-
-	<div class="container">
+			</div>
+			<div class="col-md-10">
+				<!-- <div class="content" ></div> -->
+				<div class="embed-responsive embed-responsive-16by9 content ">
+				  <iframe class="embed-responsive-item" src="httP://www.baidu.com" scrolling="no"></iframe>
+				</div>
+			</div>
+		</div>
 	</div>
 <!-- container -->
 	<div class="footer" ></div>
