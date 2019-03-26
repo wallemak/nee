@@ -3,20 +3,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>login</title>
-<link rel="stylesheet" type="text/css" href="static/css/login/style.css" />
-<link rel="stylesheet" type="text/css" href="static/css/login/body.css"/> 
-<link rel="stylesheet" type="text/css" href="static/css/admin/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="static/css/admin/bootstrap-theme.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/login/style.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/login/body.css"/> 
+<link rel="stylesheet" type="text/css" href="__CSS__/admin/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/admin/bootstrap-theme.min.css">
+<mvc:annotation-driven enable-matrix-variables="true"></mvc:annotation-driven>  
+<context:component-scan base-package="com.th.action"></context:component-scan>  
+<mvc:default-servlet-handler/> 
+
 <style type="text/css">
 body{
-	background:url(static/images/cloud.jpg) 0 bottom repeat-x  #049ec4;
+	background:url(__IMAGES__/cloud.jpg) 0 bottom repeat-x  #049ec4;
 	/*background-size:100% 100%;  */
-}
-#content form input[type="password"] {
-	background: #eae7e7 url(static/images/8bcLQqF.png) no-repeat;
-}
-#content form input[type="text"] {
-	background: url(static/images/8bcLQqF.png) 0 -112px no-repeat;
 }
 </style>
 <style type="text/css">
@@ -37,25 +35,34 @@ body{
 	margin-left:15px; 
 	display: inline-block;
 	width: 120px;
-	border:1px solid #ced7ce;
+	border:0px solid #ced7ce;
 	border-right: 3px solid #ced7ce;
 	border-bottom: 3px solid #ced7ce;
+	border-radius:10px;
 }
 .content{
 	border:1px solid #ced7ce;
 	border-right: 3px solid #ced7ce;
 	border-bottom: 3px solid #ced7ce;
+	border-radius:10px;
+}
+.content:hover{
+	border-color:#FFDEAD;
+}
+.nav-left:hover{
+	border-color:#FFDEAD;
 }
 
 </style>
 </head>
 <body>
+	<!-- header -->
 	<div class="header">
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
 		      <a class="navbar-brand" href="#">
-		        <img alt="Brand" src="static/images/cover.jpg" class="cover">
+		        <img alt="Brand" src="__IMAGES__/cover.jpg" class="cover">
 		      </a>
 		    </div>
 		    <!-- <span id="time" class="navbar-text navbar-link text-center text-justify" >time</span> -->
@@ -66,12 +73,8 @@ body{
 		  </div>
 		</nav>
 	</div>
-	<!-- <ul class="nav nav-pills nav-stacked nav-ul">
-		<li class="nav-li">navbar navbar-inverse</li>
-		<li>2</li>
-		<li>3</li>
-		<li>4</li>
-	</ul> -->
+	<!-- header -->
+	<!-- container -->
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-1 nav-left" >
@@ -82,8 +85,8 @@ body{
 				</a>
 				</li>
 				<li role="presentation" class="dropdown">
-					<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-					  document
+					<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" onclick="nav_click(this.name)" name="article_list">
+					  文章
 					</a>
 					<!-- <ul class="dropdown-menu">
 					 ...
@@ -98,9 +101,9 @@ body{
 			</ul>
 			</div>
 			<div class="col-md-10">
-				<!-- <div class="content" ></div> -->
 				<div class="embed-responsive embed-responsive-16by9 content ">
-				  <iframe class="embed-responsive-item" src="httP://www.baidu.com" scrolling="no"></iframe>
+				  <!-- <iframe class="embed-responsive-item" src="httP://www.baidu.com" scrolling="no"></iframe> -->
+				  <iframe class="embed-responsive-item" src="admin/home" scrolling="no" id="myiframe"></iframe>
 				</div>
 			</div>
 		</div>
@@ -109,60 +112,14 @@ body{
 	<div class="footer" ></div>
 </body>
 
-<script type="text/javascript" src="static/js/jquery.js"></script>
-<script type="text/javascript" src="static/js/jsencrypt.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.js"></script>
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/esm/popper-utils.js"></script> -->
 <!-- <script type="text/javascript" src="static/js/admin/bootstrap.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-<!-- <script type="text/javascript">
-	window.onload = mytime;
-	function mytime() {
-    var time=document.getElementById('time');
-    var mydate=new Date();
-    var y=mydate.getFullYear();
-    var m=mydate.getMonth()+1;
-    var d=mydate.getDate();
-    var h=mydate.getHours();
-    var min=mydate.getMinutes();
-    var s=mydate.getSeconds();
-    if(s<10){
-    	s = '0'+s;
-    }
-    time.innerHTML = y+'/'+m+'/'+d+','+h+':'+min+':'+s;
-    parseInt(Math.random()*5,10)+1;
-	Math.floor(Math.random()*5)+1;
-	var math = Math.ceil(Math.random()*5);
-    setTimeout(mytime,1000);
-    }
-</script> -->
 <script type="text/javascript">
-	var public_key = $("#text").val();
-	var encrypt = new JSEncrypt();
-    encrypt.setPublicKey(public_key);
-
-	$("#submit").click(function (){
-
-		var encrypted = encrypt.encrypt($("#password").val());
-		// var data = new array();
-		var user = $("#username").val();
-		var password = encrypted;
-
-		if($("#password").val() !=''){
-			$.ajax({
-				url:'http://127.0.0.1:8088/login',
-				type:'post',
-				data:{'username':user,'password':password},
-				dataType:'json',
-				headers:{'key':'value'},
-				success:function(r){
-					console.log(r);
-				},
-				error:function(e){
-					console.log(e);
-				}
-			});
-		}
-	});
+	function nav_click(e){
+		$('#myiframe').attr('src','admin/'+e);
+	}
 </script>
 </html>

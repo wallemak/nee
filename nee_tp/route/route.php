@@ -16,12 +16,17 @@
 // Route::get('hello/:name', 'index/hello');
 
 
-Route::group('',function(){
-	//
-	Route::get('admin','admin/AdminController/index');
+Route::group('admin',function(){
+	Route::get('/','admin/AdminController/index');
+	Route::get('home','admin/AdminController/home');
+	Route::get('article_list','admin/AdminController/article_list');
 
 } );
 //->middleware('Login')
+Route::group('blog',function(){
+	Route::get('/','home/IndexController/index');
+	// Route::get('article_list','home/')
+});
 Route::get('login','admin/LoginController/index');
 Route::post('login','admin/LoginController/login');
 Route::get('test', 'admin/AdminController/test');
