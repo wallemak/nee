@@ -3,17 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>login</title>
-<link rel="stylesheet" type="text/css" href="static/css/login/style.css" />
-<link rel="stylesheet" type="text/css" href="static/css/login/body.css"/> 
+<link rel="stylesheet" type="text/css" href="__CSS__/login/style.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/login/body.css"/> 
 <style type="text/css">
 body{
-	background:url(static/images/cloud.jpg) 0 bottom repeat-x  #049ec4;
+	background:url(__IMAGES__/cloud.jpg) 0 bottom repeat-x  #049ec4;
 }
 #content form input[type="password"] {
-	background: #eae7e7 url(static/images/8bcLQqF.png) no-repeat;
+	background: #eae7e7 url(__IMAGES__/8bcLQqF.png) no-repeat;
 }
 #content form input[type="text"] {
-	background: url(static/images/8bcLQqF.png) 0 -112px no-repeat;
+	background: url(__IMAGES__/8bcLQqF.png) 0 -112px no-repeat;
 }
 </style>
 </head>
@@ -60,8 +60,8 @@ body{
 <!-- container -->
 </body>
 
-<script type="text/javascript" src="static/js/jquery.js"></script>
-<script type="text/javascript" src="static/js/jsencrypt.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.js"></script>
+<script type="text/javascript" src="__JS__/jsencrypt.min.js"></script>
 
 
 <script type="text/javascript">
@@ -75,10 +75,9 @@ body{
 		// var data = new array();
 		var user = $("#username").val();
 		var password = encrypted;
-
 		if($("#password").val() !=''){
 			$.ajax({
-				url:'http://127.0.0.1:8088/login',
+				url:'login',
 				type:'post',
 				data:{'username':user,'password':password},
 				dataType:'json',
@@ -93,8 +92,5 @@ body{
 		}
 
 	});
-
-
-
 </script>
 </html>

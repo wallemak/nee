@@ -80,7 +80,7 @@ body{
 			<div class="col-md-1 nav-left" >
 			<ul class="nav nav-pills nav-stacked">
 				<li role="presentation" class="dropdown">
-				<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+				<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" onclick="nav_click(this.name)" name="home">
 				  首页
 				</a>
 				</li>
@@ -118,7 +118,25 @@ body{
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+	window.onload = function()
+	{
+	　　var _offset = sessionStorage.getItem("offsetTop");
+	　　$(document).scrollTop(offsetTop);
+	};
+	$(window).scroll(function(){
+	if($(document).scrollTop()!=0){
+	　　　　sessionStorage.setItem("offsetTop", $(window).scrollTop());
+	　　　} 
+	});
+	$(document).ready(function(){
+		var nav_name = sessionStorage.getItem('nav');
+		if(nav_name != null){
+			$('#myiframe').attr('src','admin/'+nav_name);
+		}
+	});
+
 	function nav_click(e){
+		sessionStorage.setItem("nav", e);
 		$('#myiframe').attr('src','admin/'+e);
 	}
 </script>
