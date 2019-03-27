@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css">
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css">
 <link rel="stylesheet" href="__CSS__/admin/bswy.css" type="text/css">
+<script type="text/javascript" src="__JS__/jquery.js"></script>
+<script type="text/javascript" src="__JS__/admin/bootstrap.min.js"></script>
 <script src="__JS__/admin/bootstrap-wysiwyg.js"></script>
 <script src="__JS__/admin/jquery.hotkeys.js"></script>
 <style type="text/css">
@@ -161,38 +163,9 @@ ul{
 <!-- container -->
 </body>
 
-<script type="text/javascript" src="__JS__/jquery.js"></script>
+
 <script type="text/javascript">
-	$(function () {
-	        function initToolbarBootstrapBindings() {
-	            var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
-	                        'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
-	                        'Times New Roman', 'Verdana'],
-	                    fontTarget = $('[title=Font]').siblings('.dropdown-menu');
-	            $.each(fonts, function (idx, fontName) {
-	                fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
-	            });
-	            $('a[title]').tooltip({container: 'body'});
-	            $('.dropdown-menu input').click(function () {
-	                return false;
-	            }).change(function () {
-	                $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
-	            }).keydown('esc', function () {
-	                this.value = '';
-	                $(this).change();
-	            });
-
-	            $('[data-role=magic-overlay]').each(function () {
-	                var overlay = $(this), target = $(overlay.data('target'));
-	                overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
-	            });
-	            $('#voiceBtn').hide();
-
-	        };
-	        initToolbarBootstrapBindings();
-	        $('#editor').wysiwyg();
-	        window.prettyPrint && prettyPrint();
-	    });
+	$('#editor').wysiwyg();
 </script>
 <script type="text/javascript">
 	// $(document).ready(function(){
