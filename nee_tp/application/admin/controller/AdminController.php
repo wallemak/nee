@@ -39,6 +39,7 @@ class AdminController extends Controller
         $list = DB::name('article')->select();
         // return $list;
         // return 123456;
+        $this->assign('list',$list);
         return $this->fetch('../views/admin/article.html');
 
     }

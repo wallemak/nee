@@ -8,33 +8,91 @@
 <style type="text/css">
 body{
 	background-color:transparent;
+	margin: 0;
+	padding: 0;
 }
 li{
 	opacity:.8;
 	margin:5px;
 	border:none;
-	border-radius:50%;
+	border-radius:4px;
 }
 a{
 	color:white;
 	text-decoration:none;
 }
 a:hover{
-	color:white;
+	color:#97FFFF;
 	text-decoration:none;
+
+}
+ul{
+	padding:5px;
+	margin: 0;
+}
+.jumbotron{
+	width:85%;
+	position:absolute;
+	left:0px;
+ 	right:0px;
+ 	top:30px;
+ 	bottom:50px;
+ 	border-radius:10px;
+ 	padding:15px;
+ 	margin:auto;
+ 	/*display: none;*/
+}
+.jum_img{
+	width:20px;
+	float:right;
+}
+.slider{
+	width:40px;
+	height:20px;
+	border:1px solid black;
+	background-color:#7CFC00;
+	position:relative;
+	margin:0;
+	color:black;
+}
+.slider  i{
+	display:block;
+	border-radius:50%;
+	border:1px solid black;
+	width:45%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:21px;
+	background-color:white;
+}
+.close i{
+	left:0;
 }
 </style>
 </head>
 <body>
-	<div class="container">
-		<ul class="list-group">
-		  <li class="list-group-item">
-		    <span class="badge"><a href="">详情</a></span>
-		    <span class="badge"><a href="">删除</a></span>
-		    <span class="badge"><a href="">修改</a></span>
-		    此处应有文章列表
-		  </li>
-		</ul>
+	<ul class="list-group">
+		{foreach $list as $key=>$val}
+	  <li class="list-group-item" >
+	  	{$val.title}
+	    <span class="badge">
+	    	<a href="javascript:void(0);" id_="{$val.id}" onclick="del_click(this.getAttribute('id_'))">删除</a>
+	    </span>
+	    <span class="badge">
+	    	<a href="javascript:void(0);" id_="{$val.id}" onclick="e_click(this.getAttribute('id_'))">修改</a>
+	    </span>
+	    <span class="badge">
+	    	<a href="javascript:void(0);" id_="{$val.id}" onclick="det_click(this.getAttribute('id_'))">详情</a>
+	    </span>
+	  </li>
+	  {/foreach}
+	</ul>
+	<div class="jumbotron">
+		<a href="javascript:void(0);" onclick="jum_close()">
+			<img src="__IMAGES__/x.png" class="jum_img">
+		</a>
+	  
 	</div>
 <!-- container -->
 </body>
@@ -52,5 +110,30 @@ a:hover{
 	// 		}
 	// 	});
 	// }); 
+	function del_click(id){
+		
+	}
+
+	function det_click(id){
+		// $.ajax({
+		// 	url:,
+		// 	data:,
+		// 	type:'post',
+		// 	Typedata:'json',
+		// 	success:function(r){
+
+		// 	}
+		// });
+
+	}
+
+	function e_click(id){
+
+	}
+
+	function jum_close()
+	{
+		
+	}
 </script>
 </html>
