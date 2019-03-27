@@ -30,16 +30,18 @@ ul{
 	padding:5px;
 	margin: 0;
 }
-.jumbotron{
+.jum{
 	width:85%;
+	height:90%;
 	position:absolute;
 	left:0px;
  	right:0px;
- 	top:30px;
+ 	top:40px;
  	bottom:50px;
  	border-radius:10px;
  	padding:15px;
  	margin:auto;
+ 	background-color: white;
  	/*display: none;*/
 }
 .jum_img{
@@ -69,6 +71,9 @@ ul{
 .close i{
 	left:0;
 }
+.a_close{
+	pointer-events:none;
+}
 </style>
 </head>
 <body>
@@ -80,19 +85,17 @@ ul{
 	    	<a href="javascript:void(0);" id_="{$val.id}" onclick="del_click(this.getAttribute('id_'))">删除</a>
 	    </span>
 	    <span class="badge">
-	    	<a href="javascript:void(0);" id_="{$val.id}" onclick="e_click(this.getAttribute('id_'))">修改</a>
-	    </span>
-	    <span class="badge">
 	    	<a href="javascript:void(0);" id_="{$val.id}" onclick="det_click(this.getAttribute('id_'))">详情</a>
 	    </span>
 	  </li>
 	  {/foreach}
 	</ul>
-	<div class="jumbotron">
+	<div class="jum">
 		<a href="javascript:void(0);" onclick="jum_close()">
 			<img src="__IMAGES__/x.png" class="jum_img">
 		</a>
-	  
+		<div style="clear:both;"></div>
+
 	</div>
 <!-- container -->
 </body>
@@ -100,40 +103,37 @@ ul{
 <script type="text/javascript" src="__JS__/jquery.js"></script>
 <script type="text/javascript">
 	// $(document).ready(function(){
-	// 	$.ajax({
-	// 		url:'admin/article_list',
-	// 		type:'get',
-	// 		dataType:'json',
-	// 		// headers:{'key':'value'},
-	// 		success:function(r){
-				
-	// 		}
-	// 	});
+		
 	// }); 
 	function del_click(id){
 		
 	}
 
 	function det_click(id){
-		// $.ajax({
-		// 	url:,
-		// 	data:,
-		// 	type:'post',
-		// 	Typedata:'json',
-		// 	success:function(r){
-
-		// 	}
-		// });
-
-	}
-
-	function e_click(id){
+		$.ajax({
+			url:'article_det',
+			type:'post',
+			data:{"id":id},
+			dataType:'json',
+			// headers:{'token':token},
+			success:function(r){
+				
+			},
+			error:function(jqXHR,textStatus,errorThrown) {
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			}
+		});
+		$('.jum').css('display','inline-block');
+		$('.badge').children('a').css('pointer-events','none');
 
 	}
 
 	function jum_close()
 	{
-		
+		$('.jum').css('display','none');
+		$('.badge').children('a').css('pointer-events','auto');
 	}
 </script>
 </html>

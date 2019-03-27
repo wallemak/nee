@@ -3,7 +3,8 @@
 namespace app\admin\controller;
 
 use think\Controller;
-use think\Request;
+// use think\Request;
+use think\facade\Request;
 use think\DB;
 use Cache;
 
@@ -41,6 +42,16 @@ class AdminController extends Controller
         // return 123456;
         $this->assign('list',$list);
         return $this->fetch('../views/admin/article.html');
+
+    }
+
+    public function article_det()
+    {
+        $id = Request::param('id');
+        $det = DB::name('article')->where('id',$id)->find();
+        return $det;
+        // $list = DB::name('article')->select();
+        // return $list;
 
     }
 }

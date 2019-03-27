@@ -20,6 +20,7 @@ Route::group('admin',function(){
 	Route::get('/','admin/AdminController/index');
 	Route::get('home','admin/AdminController/home');
 	Route::get('article_list','admin/AdminController/article_list');
+	Route::post('article_det','admin/AdminController/article_det');
 
 } );
 //->middleware('Login')
