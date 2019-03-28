@@ -49,6 +49,12 @@ class AdminController extends Controller
         $id = Request::param('id');
         $det = DB::name('article')->where('id',$id)->find();
         return $det;
+    }
 
+    public function article_edit()
+    {
+        $data = Request::param();
+        
+        return $data;
     }
 }
