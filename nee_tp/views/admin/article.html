@@ -216,6 +216,7 @@ ul{
 </script>
 <script type="text/javascript">
 	$('#editor'). wysiwyg();
+	var formData = new FormData();
 	// $(document).ready(function(){
 
 	// }); 
@@ -254,6 +255,11 @@ ul{
 	}
 
 	$("#picture").change(function(){
+		$.each(this.files,function(index,fileObj){
+			imgFiles.push(fileObj);
+			// imgFiles.push(new FormData($('#picture')[0]));
+		});
+
 		f = document.getElementById('picture').files[0];
 		reads.readAsDataURL(f);
 		reads.onload = function(e) {
@@ -262,38 +268,36 @@ ul{
 		$('#picture').attr('type','text');
 		$('#picture').attr('type','file');
 		$('#editor').html(
-			$('#editor').html()+img+'<br>'
+			$('#editor').html()+img
 			);
 		};
-		$.each(this.files,function(index,fileObj){
-			imgFiles.push(fileObj);
-		});
-		console.log(imgFiles);
+
+		
 	});
 
 	function mysubmit()
 	{
 		// var form = new FormData(document.getElementById("myform"));
-		// var form = $("#myform").serialize();
-		var form = $('#editor').html();
-		console.log(form);
-
-		// $.ajax({
-		// 	url:'article_edit',
-		// 	type:'post',
-		// 	data:form,
-		// 	dataType:'json',
-		// 	// processData:false,
-		// 	// contentType:false,
-		// 	success:function(r){
-		// 		console.log(r);
-		// 	},
-		// 	error:function(jqXHR,textStatus,errorThrown){
-		// 		console.log(jqXHR);
-		// 		console.log(textStatus);
-		// 		console.log(errorThrown);
-		// 	}
-		// });
+		$("#editor").children('img').attr('src','none');
+		var form = $("#editor").html();
+		console.log(imgFiles);
+		$.ajax({
+			url:'article_edit',
+			type:'post',
+			data:imgFiles,
+			dataType:'json',
+			// processData:false,
+			// contentType:false,
+			// async:false,
+			success:function(r){
+				console.log(r);
+			},
+			error:function(jqXHR,textStatus,errorThrown){
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			}
+		});
 	}
 </script>
 </html>
