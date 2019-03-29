@@ -55,6 +55,7 @@ class AdminController extends Controller
     {
         // $data = Request::param('data');
         $data = Request::param(true);
+
         // $files = Request::file('imgs');
         // // var_dump($files);
         // $imags = $data['imgs'];
@@ -69,11 +70,9 @@ class AdminController extends Controller
         //         'pos' => $value->img_pos,
         //     ];
         // }
-
-        // foreach($data['imgs'] as $file){
-        //     // $info = $file->move( '../uploads');
-        // }
-
+        foreach($data as $key=>$value){
+            if($key != 'content') $value->move('../upload');
+        }
 
         return $data;
     }

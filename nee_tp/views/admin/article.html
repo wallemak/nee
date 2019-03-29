@@ -217,8 +217,6 @@ ul{
 <script type="text/javascript">
 	$('#editor'). wysiwyg();
 	var formData = new FormData();
-	var img_arr = {};
-
 	// $(document).ready(function(){
 
 	// }); 
@@ -268,7 +266,7 @@ ul{
 		var type = "image/png"; 
 		var conversions = base64ToBlob(this.result, type);
 		formData.append(pos,conversions,'img.png');
-		
+
 		var img = '<img style="width:120px;" src="'+this.result+'" name="art_img'+art_i+'">';
 		art_i = art_i+1;
 		$('#picture').attr('type','text');
