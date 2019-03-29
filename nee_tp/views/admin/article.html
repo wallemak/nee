@@ -154,7 +154,7 @@ ul{
 			<div class="btn-group">
 			<a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="icon-picture"></i></a>
 			<!-- <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" id="picture"/> -->
-			<input type="file" name="" id="picture" data-role="magic-overlay" data-target="#pictureBtn" >
+			<input type="file" name="imags" id="picture" data-role="magic-overlay" data-target="#pictureBtn" multiple="multiple" >
 			</div>
 			<div class="btn-group">
 			<a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
@@ -220,7 +220,7 @@ ul{
 	// $(document).ready(function(){
 
 	// }); 
-	var imgFiles = [];
+	var data = { imgs : [],content : '' };
 	var reads = new FileReader();
 	var art_i = 1;
 	function del_click(id){
@@ -256,13 +256,25 @@ ul{
 
 	$("#picture").change(function(){
 		$.each(this.files,function(index,fileObj){
-			imgFiles.push(fileObj);
+			// data.imgs.push(fileObj);
 			// imgFiles.push(new FormData($('#picture')[0]));
 		});
 
 		f = document.getElementById('picture').files[0];
+		// imgFiles.push(f);
+		var fileName = f.name;
+
 		reads.readAsDataURL(f);
 		reads.onload = function(e) {
+			var imgmsg = {
+				name : fileName,
+				base64 : this.result,
+				img_pos : 'art_img'+art_i
+			}
+		data.imgs.push(imgmsg);
+		var blob = dataURItoBlob(this.result);
+		formData.append('art_img'+art_i,blob);
+		// console.log(formData);
 		var img = '<img style="width:120px;" src="'+this.result+'" name="art_img'+art_i+'">';
 		art_i = art_i+1;
 		$('#picture').attr('type','text');
@@ -279,16 +291,21 @@ ul{
 	{
 		// var form = new FormData(document.getElementById("myform"));
 		$("#editor").children('img').attr('src','none');
-		var form = $("#editor").html();
-		console.log(imgFiles);
+		var content = $("#editor").html();
+		// data.content = (content);
+		// console.log(data);
+		var img_data = document.getElementById('picture').files[0];
+		formData.append('content',content);
+		// console.log(formData);
 		$.ajax({
 			url:'article_edit',
 			type:'post',
-			data:imgFiles,
+			// data:{'data':data},
+			data:formData,
 			dataType:'json',
-			// processData:false,
-			// contentType:false,
-			// async:false,
+			processData:false,
+			contentType:false,
+			async:false,
 			success:function(r){
 				console.log(r);
 			},
@@ -297,6 +314,22 @@ ul{
 				console.log(textStatus);
 				console.log(errorThrown);
 			}
+		});
+	}
+
+	function dataURItoBlob(base64Data) {
+		var byteString;
+		if(base64Data.split(',')[0].indexOf('base64') >= 0)
+			byteString = atob(base64Data.split(',')[1]);
+		else
+			byteString = unescape(base64Data.split(',')[1]);
+		var mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
+		var ia = new Uint8Array(byteString.length);
+		for(var i = 0; i < byteString.length; i++) {
+			ia[i] = byteString.charCodeAt(i);
+		}
+		return new Blob([ia], {
+			type: mimeString
 		});
 	}
 </script>

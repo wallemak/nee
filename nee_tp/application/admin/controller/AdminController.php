@@ -53,8 +53,24 @@ class AdminController extends Controller
 
     public function article_edit()
     {
-        $data = Request::param();
+        $data = Request::param(true);
+        // $files = Request::file('imags');
+        // print_r($data);
+        // foreach($files as $file){
+        //     $info = $file->move( '../upload');
+        // }
+
+        foreach($data as $key=>$value){
+            if($value != 'content'){
+                $file = $value;
+                // print_r($file);
+                // $file->move( '../upload');
+
+            }
+        }
         
+
+        // return $info->getFilename();
         return $data;
     }
 }
