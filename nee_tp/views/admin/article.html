@@ -217,6 +217,8 @@ ul{
 <script type="text/javascript">
 	$('#editor'). wysiwyg();
 	var formData = new FormData();
+	var img_arr = {};
+
 	// $(document).ready(function(){
 
 	// }); 
@@ -255,10 +257,6 @@ ul{
 	}
 
 	$("#picture").change(function(){
-		$.each(this.files,function(index,fileObj){
-			// data.imgs.push(fileObj);
-			// imgFiles.push(new FormData($('#picture')[0]));
-		});
 
 		f = document.getElementById('picture').files[0];
 		// imgFiles.push(f);
@@ -266,15 +264,11 @@ ul{
 
 		reads.readAsDataURL(f);
 		reads.onload = function(e) {
-			var imgmsg = {
-				name : fileName,
-				base64 : this.result,
-				img_pos : 'art_img'+art_i
-			}
-		data.imgs.push(imgmsg);
-		var blob = dataURItoBlob(this.result);
-		formData.append('art_img'+art_i,blob);
-		// console.log(formData);
+		var pos = 'art_img'+art_i;
+		var type = "image/png"; 
+		var conversions = base64ToBlob(this.result, type);
+		formData.append(pos,conversions,'img.png');
+		
 		var img = '<img style="width:120px;" src="'+this.result+'" name="art_img'+art_i+'">';
 		art_i = art_i+1;
 		$('#picture').attr('type','text');
@@ -292,15 +286,13 @@ ul{
 		// var form = new FormData(document.getElementById("myform"));
 		$("#editor").children('img').attr('src','none');
 		var content = $("#editor").html();
-		// data.content = (content);
-		// console.log(data);
-		var img_data = document.getElementById('picture').files[0];
+		data.content = (content);
 		formData.append('content',content);
-		// console.log(formData);
+
 		$.ajax({
 			url:'article_edit',
 			type:'post',
-			// data:{'data':data},
+			// data:data,
 			data:formData,
 			dataType:'json',
 			processData:false,
@@ -331,6 +323,23 @@ ul{
 		return new Blob([ia], {
 			type: mimeString
 		});
+	}
+
+	function base64ToBlob(urlData, type) {
+	    let arr = urlData.split(',');
+	    let mime = arr[0].match(/:(.*?);/)[1] || type;
+	    // 去掉url的头，并转化为byte
+	    let bytes = window.atob(arr[1]);
+	    // 处理异常,将ascii码小于0的转换为大于0
+	    let ab = new ArrayBuffer(bytes.length);
+	    // 生成视图（直接针对内存）：8位无符号整数，长度1个字节
+	    let ia = new Uint8Array(ab);
+	    for (let i = 0; i < bytes.length; i++) {
+	            ia[i] = bytes.charCodeAt(i);
+	    };
+	    return new Blob([ab], {
+	        type: mime,
+	    });
 	}
 </script>
 </html>

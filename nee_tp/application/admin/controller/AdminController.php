@@ -53,24 +53,34 @@ class AdminController extends Controller
 
     public function article_edit()
     {
+        // $data = Request::param('data');
         $data = Request::param(true);
-        // $files = Request::file('imags');
-        // print_r($data);
-        // foreach($files as $file){
-        //     $info = $file->move( '../upload');
+        // $files = Request::file('imgs');
+        // // var_dump($files);
+        // $imags = $data['imgs'];
+        // foreach($imags as $key=>$value){
+            
+        //     $img_file = explode(',',$value['base64'])[1];
+        //     $img_file = base64_decode($img_file);
+        //     // $img_file->move('../upload');
+
+        //     static $img_arr = [];
+        //     $img_arr[$key] = [
+        //         'pos' => $value->img_pos,
+        //     ];
         // }
 
-        foreach($data as $key=>$value){
-            if($value != 'content'){
-                $file = $value;
-                // print_r($file);
-                // $file->move( '../upload');
+        // foreach($data['imgs'] as $file){
+        //     // $info = $file->move( '../uploads');
+        // }
 
-            }
-        }
-        
 
-        // return $info->getFilename();
         return $data;
     }
+
+    // public function article_edit()
+    // {
+    //     $files = Request::file('image');
+    //     $files->move( '../upload');
+    // }
 }
