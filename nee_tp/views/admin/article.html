@@ -10,6 +10,9 @@
 <!-- <link rel="stylesheet" type="text/css" href="__CSS__/admin/font-awesome.css"> -->
 <link rel="stylesheet" type="text/css" href="__CSS__/admin/bootstrap-responsive.min.css">
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<mvc:annotation-driven enable-matrix-variables="true"></mvc:annotation-driven>  
+<context:component-scan base-package="com.th.action"></context:component-scan>  
+<mvc:default-servlet-handler/>
 
 <script type="text/javascript" src="__JS__/jquery.js"></script>
 <script type="text/javascript" src="__JS__/admin/bootstrap.min.js"></script>
@@ -104,6 +107,7 @@ ul{
 	  </li>
 	  {/foreach}
 	</ul>
+	<!-- <img src="public/upload/190401/190401.png"> -->
 	<div class="jum">
 		<a href="javascript:void(0);" onclick="jum_close()">
 			<img src="__IMAGES__/x.png" class="jum_img">
@@ -221,8 +225,9 @@ ul{
 
 	// }); 
 	var data = { imgs : [],content : '' };
+	var Files = [];
 	var reads = new FileReader();
-	var art_i = 1;
+	var art_i = 0;
 	function del_click(id){
 		
 	}
@@ -257,34 +262,35 @@ ul{
 	$("#picture").change(function(){
 
 		f = document.getElementById('picture').files[0];
-		// imgFiles.push(f);
-		var fileName = f.name;
 
 		reads.readAsDataURL(f);
 		reads.onload = function(e) {
-		var pos = 'art_img'+art_i;
-		var type = "image/png"; 
-		var conversions = base64ToBlob(this.result, type);
-		formData.append(pos,conversions,'img.png');
-
-		var img = '<img style="width:120px;" src="'+this.result+'" name="art_img'+art_i+'">';
-		art_i = art_i+1;
+		var img = '<img style="width:120px;" src="'+this.result+'" pos="art_img'+art_i+'">';
+		art_i++;
 		$('#picture').attr('type','text');
 		$('#picture').attr('type','file');
 		$('#editor').html(
 			$('#editor').html()+img
 			);
-		};
-
-		
+		};		
 	});
 
 	function mysubmit()
 	{
-		// var form = new FormData(document.getElementById("myform"));
+		
+		// for(var i=0;i<Files.length;){
+		// 	formData.append('images[]',Files[i],'img.png');
+		// 	i++;
+		// }
+		var img = $("#editor").children('img');
+		$.each(img,function(index,item){
+			var img_src=$(item).attr('src');
+            var type = "image/png"; 
+            var conversions = base64ToBlob(img_src, type);
+			formData.append('images[]',conversions,'img.png');
+		});
 		$("#editor").children('img').attr('src','none');
 		var content = $("#editor").html();
-		data.content = (content);
 		formData.append('content',content);
 
 		$.ajax({
@@ -305,22 +311,8 @@ ul{
 				console.log(errorThrown);
 			}
 		});
-	}
-
-	function dataURItoBlob(base64Data) {
-		var byteString;
-		if(base64Data.split(',')[0].indexOf('base64') >= 0)
-			byteString = atob(base64Data.split(',')[1]);
-		else
-			byteString = unescape(base64Data.split(',')[1]);
-		var mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
-		var ia = new Uint8Array(byteString.length);
-		for(var i = 0; i < byteString.length; i++) {
-			ia[i] = byteString.charCodeAt(i);
-		}
-		return new Blob([ia], {
-			type: mimeString
-		});
+		formData.delete('images[]');
+		formData.delete('content');
 	}
 
 	function base64ToBlob(urlData, type) {
