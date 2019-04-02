@@ -5,7 +5,7 @@ namespace app\admin\controller;
 use think\Controller;
 // use think\Request;
 use think\facade\Request;
-use pp\admin\model\Admin;
+use app\admin\model\Admin;
 use think\DB;
 use Cache;
 
@@ -15,7 +15,7 @@ class AdminController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->model = new Admin;
+        $this->model = new Admin();
     }
 
     /**
@@ -29,9 +29,17 @@ class AdminController extends Controller
     }
     public function test()
     {
-        $res = redis()->get('name');
-        // dd($res);
-        return 'admin_test';
+        $data = DB::name('article')->where('id',3)->find();
+        $content = $data['content'];
+        $this->srt_cut($content);
+
+    }
+
+    public function srt_cut($srt,$start=0)
+    {
+        $pos = strpos($srt,'src="')+5;
+        $s = substr($srt,0,$pos);
+        dd($s);
     }
 
     public function home()
@@ -58,9 +66,18 @@ class AdminController extends Controller
     public function article_edit()
     {
         $data = Request::param(true);
-        $res = $this->model->art_edit();
-        
+        var_dump($data);die;
+        $res = $this->model->art_edit($data);
+
         // return $data;
+    }
+
+    public function article_add()
+    {
+        $data = Request::param(true);
+        var_dump($data);die;
+        $res = $this->model->art_add($data);
+        return $res;
     }
 
 }

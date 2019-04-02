@@ -20,77 +20,20 @@
 <script type="text/javascript" src="__JS__/admin/prettify.js"></script>
 <script type="text/javascript" src="__JS__/admin/bootstrap-wysiwyg.js"></script>
 <style type="text/css">
-body{
-	background-color:transparent;
-	margin: 0;
-	padding: 0;
+body{ background-color:transparent; margin: 0; padding: 0; }
+li{ opacity:.8; margin:5px; border:none; border-radius:4px; }
+a{ color:white; text-decoration:none; }
+a:hover{ color:#97FFFF; text-decoration:none; }
+ul{ padding:5px; margin: 0; }
+.jum{ width:85%; height:90%; position:absolute; left:0px; right:0px; top:40px; bottom:50px; border-radius:10px; padding:15px; margin:auto; background-color: white;
+ /*display: none;*/ 
 }
-li{
-	opacity:.8;
-	margin:5px;
-	border:none;
-	border-radius:4px;
-}
-a{
-	color:white;
-	text-decoration:none;
-}
-a:hover{
-	color:#97FFFF;
-	text-decoration:none;
-
-}
-ul{
-	padding:5px;
-	margin: 0;
-}
-.jum{
-	width:85%;
-	height:90%;
-	position:absolute;
-	left:0px;
- 	right:0px;
- 	top:40px;
- 	bottom:50px;
- 	border-radius:10px;
- 	padding:15px;
- 	margin:auto;
- 	background-color: white;
- 	/*display: none;*/
-}
-.jum_img{
-	width:20px;
-	float:right;
-}
-.container{
-	width:98%;
-}
-.slider{
-	width:40px;
-	height:20px;
-	border:1px solid black;
-	background-color:#7CFC00;
-	position:relative;
-	margin:0;
-	color:black;
-}
-.slider  i{
-	display:block;
-	border-radius:50%;
-	border:1px solid black;
-	width:45%;
-	height:100%;
-	position:absolute;
-	top:0;
-	left:21px;
-	background-color:white;
-}
-.close i{
-	left:0;
-}
-.a_close{
-	pointer-events:none;
-}
+.jum_img{ width:20px; float:right; }
+.container{ width:98%; }
+.slider{ width:40px; height:20px; border:1px solid black; background-color:#7CFC00; position:relative; margin:0; color:black; }
+.slider  i{ display:block; border-radius:50%; border:1px solid black; width:45%; height:100%; position:absolute; top:0; left:21px; background-color:white; }
+.close i{ left:0; }
+.a_close{ pointer-events:none; }
 </style>
 </head>
 <body>
@@ -114,7 +57,11 @@ ul{
 		</a>
 		<div style="clear:both;"></div>
 		<div class="container">
-			<form action="##" method="post" enctype="multipart/form-data" id="myform">
+			<input type="hidden" name="" id="">
+			<div class="input-group input-group-sm">
+			  <span class="input-group-addon" id="sizing-addon2">标题</span>
+			  <input type="text" class="form-control" placeholder="标题" aria-describedby="sizing-addon2" id="title">
+			</div>
 			<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
 			<div class="btn-group">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
@@ -166,14 +113,10 @@ ul{
 			</div>
 			<input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
 			</div>
-
-			<div id="editor">
-
+				<div id="editor">
+				</div>
 			</div>
-
-			</div>
-			<input type="button" onclick="mysubmit()" value="提交"  />
-			</form>
+			<input type="button" onclick="submit_add()" value="提交"  />
 		</div>
 	</div>
 <!-- container -->
@@ -250,7 +193,6 @@ ul{
 		});
 		$('.jum').css('display','inline-block');
 		$('.badge').children('a').css('pointer-events','none');
-
 	}
 
 	function jum_close()
@@ -265,6 +207,9 @@ ul{
 
 		reads.readAsDataURL(f);
 		reads.onload = function(e) {
+		var type = "image/png"; 
+		var conversions = base64ToBlob(this.result, type);
+		formData.append('images[]',conversions,'img.png');
 		var img = '<img style="width:120px;" src="'+this.result+'" pos="art_img'+art_i+'">';
 		art_i++;
 		$('#picture').attr('type','text');
@@ -277,21 +222,20 @@ ul{
 
 	function mysubmit()
 	{
-		
-		// for(var i=0;i<Files.length;){
-		// 	formData.append('images[]',Files[i],'img.png');
-		// 	i++;
-		// }
 		var img = $("#editor").children('img');
 		$.each(img,function(index,item){
-			var img_src=$(item).attr('src');
+			var i=index+1;
+            var img_src=$(item).attr('src');
+            //base64转图片
             var type = "image/png"; 
             var conversions = base64ToBlob(img_src, type);
-			formData.append('images[]',conversions,'img.png');
-		});
+			formData.append('img'+i,conversions,'img.png');
+        });
+
 		$("#editor").children('img').attr('src','none');
 		var content = $("#editor").html();
 		formData.append('content',content);
+
 
 		$.ajax({
 			url:'article_edit',
@@ -330,6 +274,36 @@ ul{
 	    return new Blob([ab], {
 	        type: mime,
 	    });
+	}
+
+	function submit_add()
+	{
+		var img = $('#editor').children('img');
+
+		// $("#editor").children('img').attr('src','none');
+		formData.append('content',$('#editor').html());
+		// formData.append('title',$('#title').val());
+		console.log(formData);
+		$.ajax({
+			url:'article_add',
+			data:formData,
+			type:'post',
+			dataType:'json',
+			processData:false,
+			contentType:false,
+			async:false,
+			// headers:{'token':'mytoken'},
+			success:function(r){
+
+			},
+			error:function(jqXHR,textStatus,errorThrown){
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			}
+		});
+		formData.delete('images[]');
+		formData.delete('content');
 	}
 </script>
 </html>

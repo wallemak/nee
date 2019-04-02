@@ -22,6 +22,7 @@ Route::group('admin',function(){
 	Route::get('article_list','admin/AdminController/article_list');
 	Route::post('article_det','admin/AdminController/article_det');
 	Route::post('article_edit','admin/AdminController/article_edit');
+	Route::post('article_add','admin/AdminController/article_add');
 
 } );
 //->middleware('Login')
