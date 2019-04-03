@@ -40,11 +40,12 @@ class Admin extends Model
 
     public function art_add($data)
     {
+    	var_dump($data);die;
     	DB::startTrans();
     	try{
     		$article = [
     			// 'title' =>$data['title'],
-    			'title' =>1,
+    			'title' =>$data['title'],
     			'content'=>$data['content'],
     			'class_id'=>1,
     			'create_time'=>time()
@@ -68,6 +69,7 @@ class Admin extends Model
 		    	}
 		    	foreach($data['images'] as $pos=>$file){
 		    		// $info->setUploadInfo($info);
+		    		if(!array_search($pos,$data['img_pos'])) continue;
 		    		static $img_info = [];
 		    	    $info = $file->move($src,$name);
 		    	    $img_arr = [
@@ -79,6 +81,7 @@ class Admin extends Model
 		    	    $img_info[$pos] =$img_arr;
 		    	    $photo_id = DB::name('photo')->insertGetId($img_arr);
 		    	    DB::name('art_photo')->insert(['art_id'=>$art_id,'photo_id'=>$photo_id]);
+	
 		    	    $name++;
 		    	}
 	    	}
