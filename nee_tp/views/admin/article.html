@@ -306,10 +306,19 @@ ul{ padding:5px; margin: 0; }
 			async:false,
 			// headers:{'token':'mytoken'},
 			success:function(r){
-				console.log(r);
-				if(r.error == true){
+				if(r.error == 'ok'){
 					layer.open({
-					content: '添加成功',
+					title:'',
+					content: r.content,
+					btnAlign:'c',
+					shade :0.5,
+					anim: 5,
+					closeBtn :0
+				    });
+				}else{
+					layer.open({
+					title:r.error,
+					content: r.content,
 					btnAlign:'c',
 					shade :0.5,
 					anim: 5,

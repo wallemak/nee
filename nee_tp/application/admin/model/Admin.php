@@ -42,7 +42,16 @@ class Admin extends Model
     {
     	DB::startTrans();
     	try{
-    		$err = ['error'=>true,'SQL'=>'','file_error'=>''];
+    		$article = [
+    			// 'title' =>$data['title'],
+    			'title' =>1,
+    			'content'=>$data['content'],
+    			'class_id'=>1,
+    			'create_time'=>time()
+
+    		];
+    		$art_id = DB::name('article')->insertGetId($article);
+
 	    	if(isset($data['images'])){
 		    	$day = substr(date('Ymd'),2);
 		    	$src = '../public/static/images/article/'.$day;
@@ -61,7 +70,6 @@ class Admin extends Model
 		    		// $info->setUploadInfo($info);
 		    		static $img_info = [];
 		    	    $info = $file->move($src,$name);
-		    	    if(!$info) $err['file_error'] = $info->getError();
 		    	    $img_arr = [
 		    	        'name' => $info->getFilename(),
 		    	        'pos' => $pos,
@@ -69,22 +77,14 @@ class Admin extends Model
 		    	        'create_time' => time()
 		    	    ];
 		    	    $img_info[$pos] =$img_arr;
-		    	    DB::name('photo')->insert($img_arr);
+		    	    $photo_id = DB::name('photo')->insertGetId($img_arr);
+		    	    DB::name('art_photo')->insert(['art_id'=>$art_id,'photo_id'=>$photo_id]);
 		    	    $name++;
 		    	}
 	    	}
-	    	$article = [
-	    		// 'title' =>$data['title'],
-	    		'title' =>1,
-	    		'content'=>$data['content'],
-	    		'class_id'=>1,
-	    		'create_time'=>time()
-
-	    	];
-	    	DB::name('article')->insert($article);
+	    	
 	    	DB::commit();
-	    	$err['SQL'] = $info->getError();
-	    	return $err;
+	    	return true;
     	} catch(\Exception $e){
     		if( isset($img_info) && !empty($img_info) ){
     			foreach($img_info as $value){
@@ -92,15 +92,8 @@ class Admin extends Model
     				unlink($un_src);
     			}
     		}
-    		$err['SQL'] = Db::getLastSql();
-    		if( !empty($err['file_error']) ){
-    			$err['error'] = '文件上传错误';
-    		}else{
-    			$err['error'] = 'SQL错误';
-    			
-    		}
     		DB::rollback();
-    		return $err;
+    		return false;
     	}
 
     }

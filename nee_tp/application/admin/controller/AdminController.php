@@ -76,7 +76,11 @@ class AdminController extends Controller
     {
         $data = Request::param(true);
         $res = $this->model->art_add($data);
-        return $res;
+        if($res){
+            return ['error'=>'ok','content'=>'添加成功'];
+        }else{
+            return ['error'=>'400','content'=>'添加失败'];
+        }
     }
 
 }
