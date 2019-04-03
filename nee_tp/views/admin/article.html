@@ -172,7 +172,6 @@ ul{ padding:5px; margin: 0; }
 	var reads = new FileReader();
 	var art_i = 0;
 	var base64_arr = [];
-	var img_pos = [];
 	var type = "image/png"; 
 
 
@@ -293,10 +292,10 @@ ul{ padding:5px; margin: 0; }
 		$.each(img,function(index,item){
 			var item_pos = $(item).attr('pos');
 			$(item).attr('src',base64_arr[item_pos]);
-			img_pos.push(item_pos);
+			formData.append('img_pos[]',item_pos);
 		});
 		formData.append('title',$('#title').val());
-		formData.append('img_pos',img_pos);
+		
 
 		$.ajax({
 			url:'article_add',
@@ -337,7 +336,7 @@ ul{ padding:5px; margin: 0; }
 		formData.delete('images[]');
 		formData.delete('content');
 		formData.delete('title');
-		formData.delete('img_pos');
+		formData.delete('img_pos[]');
 	}
 
 	function base64ToBlob(urlData, type) {
