@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="__CSS__/admin/bootstrap-combined.no-icons.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="__CSS__/admin/font-awesome.css"> -->
 <link rel="stylesheet" type="text/css" href="__CSS__/admin/bootstrap-responsive.min.css">
+
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
 <mvc:annotation-driven enable-matrix-variables="true"></mvc:annotation-driven>  
 <context:component-scan base-package="com.th.action"></context:component-scan>  
@@ -19,6 +20,7 @@
 <script type="text/javascript" src="__JS__/admin/jquery.hotkeys.js"></script>
 <script type="text/javascript" src="__JS__/admin/prettify.js"></script>
 <script type="text/javascript" src="__JS__/admin/bootstrap-wysiwyg.js"></script>
+<script type="text/javascript" src="__JS__/admin/layer/layer.js"></script>
 <style type="text/css">
 body{ background-color:transparent; margin: 0; padding: 0; }
 li{ opacity:.8; margin:5px; border:none; border-radius:4px; }
@@ -168,9 +170,12 @@ ul{ padding:5px; margin: 0; }
 
 	// }); 
 	var data = { imgs : [],content : '' };
-	var Files = [];
 	var reads = new FileReader();
 	var art_i = 0;
+	var base64_arr = [];
+	var type = "image/png"; 
+
+
 	function del_click(id){
 		
 	}
@@ -207,10 +212,8 @@ ul{ padding:5px; margin: 0; }
 
 		reads.readAsDataURL(f);
 		reads.onload = function(e) {
-		var type = "image/png"; 
-		var conversions = base64ToBlob(this.result, type);
-		formData.append('images[]',conversions,'img.png');
-		var img = '<img style="width:120px;" src="'+this.result+'" pos="art_img'+art_i+'">';
+		
+		var img = '<img style="width:120px;" src="'+this.result+'" pos="'+art_i+'">';
 		art_i++;
 		$('#picture').attr('type','text');
 		$('#picture').attr('type','file');
@@ -259,6 +262,71 @@ ul{ padding:5px; margin: 0; }
 		formData.delete('content');
 	}
 
+	function submit_add()
+	{
+		var img = $('#editor').children('img');
+		$.each(img,function(index,item){
+			var re = /^(data\:image)/;
+			if( re.test( $(item).attr('src') )){
+				// base64_arr.push( $(item).attr('src') );
+				var pos = $(item).attr('pos');
+				console.log(pos);
+				base64_arr[pos] = $(item).attr('src');
+				var conversions = base64ToBlob($(item).attr('src'), type);
+				formData.append('images['+pos+']',conversions,'img.png');
+			}else{
+				var pos = $(item).attr('pos');
+				var image = new Image();
+				image.crossOrigin = '';
+				image.src = $(item).attr('src');
+				image.onload = function(){
+					var base64 = getBase64Image(image);
+					base64_arr[pos] = base64;
+					var conversions = base64ToBlob(base64, type);
+					formData.append('images['+pos+']',conversions,'img.png');
+				}
+			}
+		});
+		$("#editor").children('img').attr('src','none');
+		var content = $("#editor").html();
+		formData.append('content',content);
+		$.each(img,function(index,item){
+			var item_pos = $(item).attr('pos');
+			$(item).attr('src',base64_arr[item_pos]);
+		});
+		// // formData.append('title',$('#title').val());
+
+		$.ajax({
+			url:'article_add',
+			data:formData,
+			type:'post',
+			dataType:'json',
+			processData:false,
+			contentType:false,
+			async:false,
+			// headers:{'token':'mytoken'},
+			success:function(r){
+				console.log(r);
+				if(r.error == true){
+					layer.open({
+					content: '添加成功',
+					btnAlign:'c',
+					shade :0.5,
+					anim: 5,
+					closeBtn :0
+				    });
+				}
+			},
+			error:function(jqXHR,textStatus,errorThrown){
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			}
+		});
+		formData.delete('images[]');
+		formData.delete('content');
+	}
+
 	function base64ToBlob(urlData, type) {
 	    let arr = urlData.split(',');
 	    let mime = arr[0].match(/:(.*?);/)[1] || type;
@@ -276,34 +344,16 @@ ul{ padding:5px; margin: 0; }
 	    });
 	}
 
-	function submit_add()
-	{
-		var img = $('#editor').children('img');
-
-		// $("#editor").children('img').attr('src','none');
-		formData.append('content',$('#editor').html());
-		// formData.append('title',$('#title').val());
-		console.log(formData);
-		$.ajax({
-			url:'article_add',
-			data:formData,
-			type:'post',
-			dataType:'json',
-			processData:false,
-			contentType:false,
-			async:false,
-			// headers:{'token':'mytoken'},
-			success:function(r){
-
-			},
-			error:function(jqXHR,textStatus,errorThrown){
-				console.log(jqXHR);
-				console.log(textStatus);
-				console.log(errorThrown);
-			}
-		});
-		formData.delete('images[]');
-		formData.delete('content');
+	function getBase64Image(img) {
+	    var canvas = document.createElement("canvas");
+	    canvas.width = img.width;
+	    canvas.height = img.height;
+	    var ctx = canvas.getContext("2d");
+	    ctx.drawImage(img, 0, 0, img.width, img.height);
+	    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+	    var dataURL = canvas.toDataURL("image/"+ext);
+	    return dataURL;
 	}
+
 </script>
 </html>

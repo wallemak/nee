@@ -66,7 +66,7 @@ class AdminController extends Controller
     public function article_edit()
     {
         $data = Request::param(true);
-        var_dump($data);die;
+        // var_dump($data);die;
         $res = $this->model->art_edit($data);
 
         // return $data;
@@ -75,7 +75,6 @@ class AdminController extends Controller
     public function article_add()
     {
         $data = Request::param(true);
-        var_dump($data);die;
         $res = $this->model->art_add($data);
         return $res;
     }
