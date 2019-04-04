@@ -31,7 +31,7 @@ class AdminController extends Controller
     {
         $a = ['a','b','c'];
         $aa = 0;
-        if( in_array(123,$a) == false) return 1;
+        if( in_array(0,$a) == false) return 1;
         return 'test';
     }
 
