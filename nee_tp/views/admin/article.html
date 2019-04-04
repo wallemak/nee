@@ -166,6 +166,7 @@ ul{ padding:5px; margin: 0; }
 <script type="text/javascript">
 	$('#editor'). wysiwyg();
 	var formData = new FormData();
+	formData.append('images[]',123);
 	// $(document).ready(function(){
 
 	// }); 
@@ -220,9 +221,13 @@ ul{ padding:5px; margin: 0; }
 
 		reads.readAsDataURL(f);
 		reads.onload = function(e) {
-		
+
+		base64_arr[art_i] = this.result;
+		var conversions = base64ToBlob(this.result, type);
+		formData.append('images[]',conversions);
 		var img = '<img style="width:120px;" src="'+this.result+'" pos="'+art_i+'">';
 		art_i++;
+
 		$('#picture').attr('type','text');
 		$('#picture').attr('type','file');
 		$('#editor').html(
@@ -245,25 +250,25 @@ ul{ padding:5px; margin: 0; }
 			async:false,
 			// headers:{'token':'mytoken'},
 			success:function(r){
-				// if(r.error == 'ok'){
-				// 	layer.open({
-				// 	title:'',
-				// 	content: r.content,
-				// 	btnAlign:'c',
-				// 	shade :0.5,
-				// 	anim: 5,
-				// 	closeBtn :0
-				//     });
-				// }else{
-				// 	layer.open({
-				// 	title:r.error,
-				// 	content: r.content,
-				// 	btnAlign:'c',
-				// 	shade :0.5,
-				// 	anim: 5,
-				// 	closeBtn :0
-				//     });
-				// }
+				if(r.error == 'ok'){
+					layer.open({
+					title:'',
+					content: r.content,
+					btnAlign:'c',
+					shade :0.5,
+					anim: 5,
+					closeBtn :0
+				    });
+				}else{
+					layer.open({
+					title:r.error,
+					content: r.content,
+					btnAlign:'c',
+					shade :0.5,
+					anim: 5,
+					closeBtn :0
+				    });
+				}
 			},
 			error:function(jqXHR,textStatus,errorThrown){
 				console.log(jqXHR);
@@ -309,28 +314,6 @@ ul{ padding:5px; margin: 0; }
 	function getformData()
 	{
 		var img = $('#editor').children('img');
-		$.each(img,function(index,item){
-			var re = /^(data\:image)/;
-			if( re.test( $(item).attr('src') )){
-				// base64_arr.push( $(item).attr('src') );
-				var pos = $(item).attr('pos');
-				console.log(pos);
-				base64_arr[pos] = $(item).attr('src');
-				var conversions = base64ToBlob($(item).attr('src'), type);
-				formData.append('images['+pos+']',conversions,'img.png');
-			}else{
-				var pos = $(item).attr('pos');
-				var image = new Image();
-				image.crossOrigin = '';
-				image.src = $(item).attr('src');
-				image.onload = function(){
-					var base64 = getBase64Image(image);
-					base64_arr[pos] = base64;
-					var conversions = base64ToBlob(base64, type);
-					formData.append('images['+pos+']',conversions,'img.png');
-				}
-			}
-		});
 		$("#editor").children('img').attr('src','none');
 		var content = $("#editor").html();
 		formData.append('content',content);
