@@ -28,7 +28,7 @@ a{ color:white; text-decoration:none; }
 a:hover{ color:#97FFFF; text-decoration:none; }
 ul{ padding:5px; margin: 0; }
 .jum{ width:85%; height:90%; position:absolute; left:0px; right:0px; top:40px; bottom:50px; border-radius:10px; padding:15px; margin:auto; background-color: white;
- /*display: none;*/ 
+ /*display: none; */
 }
 .jum_img{ width:20px; float:right; }
 .container{ width:98%; }
@@ -59,7 +59,7 @@ ul{ padding:5px; margin: 0; }
 		</a>
 		<div style="clear:both;"></div>
 		<div class="container">
-			<input type="hidden" name="" id="">
+			<input type="hidden" id="art_id" value="">
 			<div class="input-group input-group-sm">
 			  <span class="input-group-addon" id="sizing-addon2">标题</span>
 			  <input type="text" class="form-control" placeholder="标题" aria-describedby="sizing-addon2" id="title">
@@ -118,7 +118,7 @@ ul{ padding:5px; margin: 0; }
 				<div id="editor">
 				</div>
 			</div>
-			<input type="button" onclick="submit_add()" value="提交"  />
+			<input type="button" value="提交" act_type="edit" id="submit" />
 		</div>
 	</div>
 <!-- container -->
@@ -170,7 +170,7 @@ ul{ padding:5px; margin: 0; }
 
 	// }); 
 	var reads = new FileReader();
-	var art_i = 0;
+	var art_i = 1;
 	var base64_arr = [];
 	var type = "image/png"; 
 
@@ -180,6 +180,7 @@ ul{ padding:5px; margin: 0; }
 	}
 
 	function det_click(id){
+		$('#art_id').attr('art_id',id);
 		$.ajax({
 			url:'article_det',
 			type:'post',
@@ -187,7 +188,15 @@ ul{ padding:5px; margin: 0; }
 			dataType:'json',
 			// headers:{'key':value},
 			success:function(r){
-				
+				$('#editor').html(r.content);
+				var imgs = $('#editor').children('img');
+
+				$.each(imgs,function(index,item){
+					var pos = $(item).attr('pos');
+					console.log(r.images);
+					// console.log(r.images[pos]);
+					// $(item).attr('src',r.images[pos]);
+				});
 			},
 			error:function(jqXHR,textStatus,errorThrown) {
 				console.log(jqXHR);
@@ -221,35 +230,40 @@ ul{ padding:5px; margin: 0; }
 			);
 		};		
 	});
-
-	function mysubmit()
-	{
-		var img = $("#editor").children('img');
-		$.each(img,function(index,item){
-			var i=index+1;
-            var img_src=$(item).attr('src');
-            //base64转图片
-            var type = "image/png"; 
-            var conversions = base64ToBlob(img_src, type);
-			formData.append('img'+i,conversions,'img.png');
-        });
-
-		$("#editor").children('img').attr('src','none');
-		var content = $("#editor").html();
-		formData.append('content',content);
-
-
+	var btn = $('#submit');
+	btn.click(function(){
+		getformData();
+		var act = $('#submit').attr('act_type');
 		$.ajax({
-			url:'article_edit',
-			type:'post',
-			// data:data,
+			url:'article_add',
 			data:formData,
+			// data:{'data':123},
+			type:'post',
 			dataType:'json',
 			processData:false,
 			contentType:false,
 			async:false,
+			// headers:{'token':'mytoken'},
 			success:function(r){
-				console.log(r);
+				// if(r.error == 'ok'){
+				// 	layer.open({
+				// 	title:'',
+				// 	content: r.content,
+				// 	btnAlign:'c',
+				// 	shade :0.5,
+				// 	anim: 5,
+				// 	closeBtn :0
+				//     });
+				// }else{
+				// 	layer.open({
+				// 	title:r.error,
+				// 	content: r.content,
+				// 	btnAlign:'c',
+				// 	shade :0.5,
+				// 	anim: 5,
+				// 	closeBtn :0
+				//     });
+				// }
 			},
 			error:function(jqXHR,textStatus,errorThrown){
 				console.log(jqXHR);
@@ -259,9 +273,40 @@ ul{ padding:5px; margin: 0; }
 		});
 		formData.delete('images[]');
 		formData.delete('content');
+		formData.delete('title');
+		formData.delete('img_pos[]');
+	});
+
+
+	function base64ToBlob(urlData, type) {
+	    let arr = urlData.split(',');
+	    let mime = arr[0].match(/:(.*?);/)[1] || type;
+	    // 去掉url的头，并转化为byte
+	    let bytes = window.atob(arr[1]);
+	    // 处理异常,将ascii码小于0的转换为大于0
+	    let ab = new ArrayBuffer(bytes.length);
+	    // 生成视图（直接针对内存）：8位无符号整数，长度1个字节
+	    let ia = new Uint8Array(ab);
+	    for (let i = 0; i < bytes.length; i++) {
+	            ia[i] = bytes.charCodeAt(i);
+	    };
+	    return new Blob([ab], {
+	        type: mime,
+	    });
 	}
 
-	function submit_add()
+	function getBase64Image(img) {
+	    var canvas = document.createElement("canvas");
+	    canvas.width = img.width;
+	    canvas.height = img.height;
+	    var ctx = canvas.getContext("2d");
+	    ctx.drawImage(img, 0, 0, img.width, img.height);
+	    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+	    var dataURL = canvas.toDataURL("image/"+ext);
+	    return dataURL;
+	}
+
+	function getformData()
 	{
 		var img = $('#editor').children('img');
 		$.each(img,function(index,item){
@@ -294,77 +339,7 @@ ul{ padding:5px; margin: 0; }
 			$(item).attr('src',base64_arr[item_pos]);
 			formData.append('img_pos[]',item_pos);
 		});
-		formData.append('title',$('#title').val());
-		
-
-		$.ajax({
-			url:'article_add',
-			data:formData,
-			type:'post',
-			dataType:'json',
-			processData:false,
-			contentType:false,
-			async:false,
-			// headers:{'token':'mytoken'},
-			success:function(r){
-				if(r.error == 'ok'){
-					layer.open({
-					title:'',
-					content: r.content,
-					btnAlign:'c',
-					shade :0.5,
-					anim: 5,
-					closeBtn :0
-				    });
-				}else{
-					layer.open({
-					title:r.error,
-					content: r.content,
-					btnAlign:'c',
-					shade :0.5,
-					anim: 5,
-					closeBtn :0
-				    });
-				}
-			},
-			error:function(jqXHR,textStatus,errorThrown){
-				console.log(jqXHR);
-				console.log(textStatus);
-				console.log(errorThrown);
-			}
-		});
-		formData.delete('images[]');
-		formData.delete('content');
-		formData.delete('title');
-		formData.delete('img_pos[]');
-	}
-
-	function base64ToBlob(urlData, type) {
-	    let arr = urlData.split(',');
-	    let mime = arr[0].match(/:(.*?);/)[1] || type;
-	    // 去掉url的头，并转化为byte
-	    let bytes = window.atob(arr[1]);
-	    // 处理异常,将ascii码小于0的转换为大于0
-	    let ab = new ArrayBuffer(bytes.length);
-	    // 生成视图（直接针对内存）：8位无符号整数，长度1个字节
-	    let ia = new Uint8Array(ab);
-	    for (let i = 0; i < bytes.length; i++) {
-	            ia[i] = bytes.charCodeAt(i);
-	    };
-	    return new Blob([ab], {
-	        type: mime,
-	    });
-	}
-
-	function getBase64Image(img) {
-	    var canvas = document.createElement("canvas");
-	    canvas.width = img.width;
-	    canvas.height = img.height;
-	    var ctx = canvas.getContext("2d");
-	    ctx.drawImage(img, 0, 0, img.width, img.height);
-	    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
-	    var dataURL = canvas.toDataURL("image/"+ext);
-	    return dataURL;
+		formData.append('title',$('#title').val());	
 	}
 
 </script>

@@ -29,18 +29,13 @@ class AdminController extends Controller
     }
     public function test()
     {
-        $data = DB::name('article')->where('id',3)->find();
-        $content = $data['content'];
-        $this->srt_cut($content);
-
+        $a = ['a','b','c'];
+        $aa = 0;
+        if( in_array(123,$a) == false) return 1;
+        return 'test';
     }
 
-    public function srt_cut($srt,$start=0)
-    {
-        $pos = strpos($srt,'src="')+5;
-        $s = substr($srt,0,$pos);
-        dd($s);
-    }
+
 
     public function home()
     {
@@ -59,22 +54,22 @@ class AdminController extends Controller
     public function article_det()
     {
         $id = Request::param('id');
-        $det = DB::name('article')->where('id',$id)->find();
+        // return $id;
+        $det = $this->model->article_det($id);
         return $det;
     }
 
     public function article_edit()
     {
         $data = Request::param(true);
-        // var_dump($data);die;
         $res = $this->model->art_edit($data);
-
-        // return $data;
+        // return $res;
     }
 
     public function article_add()
     {
         $data = Request::param(true);
+        print_r($data);die;
         $res = $this->model->art_add($data);
         if($res){
             return ['error'=>'ok','content'=>'添加成功'];
