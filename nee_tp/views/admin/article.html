@@ -206,14 +206,10 @@ ul{ padding:5px; margin: 0; }
 
 				$.each(imgs,function(index,item){
 					var pos = $(item).attr('pos');
-					image.crossOrigin = '';
-					image.src = r.images[pos];
-					// image.onload = function(){
-						var base64 = getBase64Image(image);
-						// $(item).attr('src',base64);
-					// }
-					// var src = r.images[pos];
 					$(item).attr('src',r.images[pos]);
+					// var base64 = getBase64Image(item);
+					// $(item).attr('src',base64);
+
 				});
 			},
 			error:function(jqXHR,textStatus,errorThrown) {
@@ -320,12 +316,14 @@ ul{ padding:5px; margin: 0; }
 
 	function getBase64Image(img) {
 	    var canvas = document.createElement("canvas");
-	    canvas.width = img.width;
-	    canvas.height = img.height;
+	    // canvas.width = img.width;
+	    // canvas.height = img.height;
 	    var ctx = canvas.getContext("2d");
 	    ctx.drawImage(img, 0, 0, img.width, img.height);
 	    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
-	    var dataURL = canvas.toDataURL("image/"+ext);
+	    //提取后缀
+	    var dataURL = canvas.toDataURL("");
+	    alert(dataURL)
 	    return dataURL;
 	}
 
