@@ -26,8 +26,8 @@ class Admin extends Model
     			'create_time'=>time()
     		];
     		$art_id = Db::name('article')->insertGetId($article);
-
 	    	if(isset($data['images'])){
+	    		$img_pos = $data['img_pos'];
 		    	$day = substr(date('Ymd'),2);
 		    	$src = '../public/static/images/article/'.$day;
 		    	$s_time = mktime(0,0,0,date('m'),date('d'),date('Y'));
@@ -47,12 +47,11 @@ class Admin extends Model
 		    	}else{
 		    	    $name = 'img'.'001';
 		    	}
-		    	$aa = 1;
 		    	foreach($data['images'] as $key=>$file){
 		    		// $info->setUploadInfo($info);
-		    		$pos = $key+1;
-		    		if( in_array($pos,$data['img_pos']) == false) continue;
 		    		static $img_info = [];
+		    		$pos = $img_pos[$key];
+
 		    	    $info = $file->move($src,$name);
 		    	    $img_arr = [
 		    	        'name' => $info->getFilename(),
@@ -60,7 +59,7 @@ class Admin extends Model
 		    	        'src' => $src,
 		    	        'create_time' => time()
 		    	    ];
-		    	    $img_info[$pos] =$img_arr;
+		    	    $img_info[] =$img_arr;
 		    	    //图片信息插入数据库
 		    	    $photo_id = Db::name('photo')->insertGetId($img_arr);
 		    	    Db::name('art_photo')->insert(['art_id'=>$art_id,'photo_id'=>$photo_id]);
@@ -69,7 +68,6 @@ class Admin extends Model
 		    	    $num = $arr[0][count($arr[0])-1];
 		    	    $new_num = sprintf("%0".(strlen($num))."d",$num+1);
 		    	    $name = 'img'.$new_num;
-		    	    $aa++;
 		    	}
 	    	}
 	    	Db::commit();
@@ -87,7 +85,7 @@ class Admin extends Model
 
     }
 
-    function article_det($id)
+    public function article_det($id)
     {
     	$det = Db::name('article')->where('id',$id)->find();
     	$img = Db::name('art_photo ap')
@@ -103,7 +101,14 @@ class Admin extends Model
     		}
     		$det['images'] = $images;
     	}
-  
     	return $det;
     }
+
+    public function list($data)
+    {
+    	$list = DB::name('article')->page($data['page'],$data['limit'])->select();
+    	return $list;
+    }
+
+
 }

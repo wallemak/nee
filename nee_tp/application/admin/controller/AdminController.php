@@ -29,9 +29,10 @@ class AdminController extends Controller
     }
     public function test()
     {
-        $a = ['a','b','c'];
+        $a = ['1','2'];
+        $a = array_flip($a);
         $aa = 0;
-        if( in_array(0,$a) == false) return 1;
+        if( isset($a[0]) ) return 1;
         return 'test';
     }
 
@@ -44,8 +45,8 @@ class AdminController extends Controller
 
     public function article_list()
     {
-        $list = DB::name('article')->select();
-        
+        $data = Request::only(['page'=>1,'limit'=>10],'get');
+        $list = $this->model->list($data);
         $this->assign('list',$list);
         return $this->fetch('../views/admin/article.html');
 
@@ -69,7 +70,6 @@ class AdminController extends Controller
     public function article_add()
     {
         $data = Request::param(true);
-        print_r($data);die;
         $res = $this->model->art_add($data);
         if($res){
             return ['error'=>'ok','content'=>'添加成功'];

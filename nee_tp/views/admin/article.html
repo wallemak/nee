@@ -28,7 +28,7 @@ a{ color:white; text-decoration:none; }
 a:hover{ color:#97FFFF; text-decoration:none; }
 ul{ padding:5px; margin: 0; }
 .jum{ width:85%; height:90%; position:absolute; left:0px; right:0px; top:40px; bottom:50px; border-radius:10px; padding:15px; margin:auto; background-color: white;
- /*display: none; */
+ display: none; 
 }
 .jum_img{ width:20px; float:right; }
 .container{ width:98%; }
@@ -36,6 +36,9 @@ ul{ padding:5px; margin: 0; }
 .slider  i{ display:block; border-radius:50%; border:1px solid black; width:45%; height:100%; position:absolute; top:0; left:21px; background-color:white; }
 .close i{ left:0; }
 .a_close{ pointer-events:none; }
+.pager li a{ color:black; }
+.pager li a:hover{ color:#00BFFF; }
+.d_page{ position:absolute; bottom:50px; padding:5px 15px; width:100%; }
 </style>
 </head>
 <body>
@@ -52,7 +55,15 @@ ul{ padding:5px; margin: 0; }
 	  </li>
 	  {/foreach}
 	</ul>
-	<!-- <img src="public/upload/190401/190401.png"> -->
+	<div class="d_page">
+		<nav aria-label="...">
+		  <ul class="pager">
+		    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+		    <li style="opacity:1;"><a href="#" id='a_add'>添加</a></li>
+		    <li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+		  </ul>
+		</nav>
+	</div>
 	<div class="jum">
 		<a href="javascript:void(0);" onclick="jum_close()">
 			<img src="__IMAGES__/x.png" class="jum_img">
@@ -118,7 +129,7 @@ ul{ padding:5px; margin: 0; }
 				<div id="editor">
 				</div>
 			</div>
-			<input type="button" value="提交" act_type="edit" id="submit" />
+			<input type="button" value="提交" act_type="article_add" id="submit" />
 		</div>
 	</div>
 <!-- container -->
@@ -170,6 +181,7 @@ ul{ padding:5px; margin: 0; }
 
 	// }); 
 	var reads = new FileReader();
+	var image = new Image();
 	var art_i = 0;
 	var base64_arr = [];
 	var type = "image/png"; 
@@ -189,13 +201,19 @@ ul{ padding:5px; margin: 0; }
 			// headers:{'key':value},
 			success:function(r){
 				$('#editor').html(r.content);
+				$('#title').val(r.title);
 				var imgs = $('#editor').children('img');
 
 				$.each(imgs,function(index,item){
 					var pos = $(item).attr('pos');
-					console.log(r.images);
-					// console.log(r.images[pos]);
-					// $(item).attr('src',r.images[pos]);
+					image.crossOrigin = '';
+					image.src = r.images[pos];
+					// image.onload = function(){
+						var base64 = getBase64Image(image);
+						// $(item).attr('src',base64);
+					// }
+					// var src = r.images[pos];
+					$(item).attr('src',r.images[pos]);
 				});
 			},
 			error:function(jqXHR,textStatus,errorThrown) {
@@ -206,6 +224,7 @@ ul{ padding:5px; margin: 0; }
 		});
 		$('.jum').css('display','inline-block');
 		$('.badge').children('a').css('pointer-events','none');
+		$('#submit').attr('act_type','admin_edit');
 	}
 
 	function jum_close()
@@ -230,12 +249,11 @@ ul{ padding:5px; margin: 0; }
 			);
 		};		
 	});
-	var btn = $('#submit');
-	btn.click(function(){
+	$('#submit').click(function(){
 		getformData();
-		var act = $('#submit').attr('act_type');
+		var url = $('#submit').attr('act_type');
 		$.ajax({
-			url:'article_add',
+			url:url,
 			data:formData,
 			// data:{'data':123},
 			type:'post',
@@ -252,7 +270,12 @@ ul{ padding:5px; margin: 0; }
 					btnAlign:'c',
 					shade :0.5,
 					anim: 5,
-					closeBtn :0
+					closeBtn :0,
+					yes:function(index,layero){
+						layer.close(index);
+						$('.jum').css('display','none');
+						location.reload();
+					}
 				    });
 				}else{
 					layer.open({
@@ -319,7 +342,6 @@ ul{ padding:5px; margin: 0; }
 				formData.append('images[]',conversions,'img.png');
 			}else{
 				var pos = $(item).attr('pos');
-				var image = new Image();
 				image.crossOrigin = '';
 				image.src = $(item).attr('src');
 				image.onload = function(){
@@ -341,5 +363,11 @@ ul{ padding:5px; margin: 0; }
 		formData.append('title',$('#title').val());	
 	}
 
+	$('#a_add').click(function(){
+		$('#title').val('');
+		$('#editor').html('');
+		$('.jum').css('display','inline-block');
+		$('#submit').attr('act_type','article_add');
+	});
 </script>
 </html>
