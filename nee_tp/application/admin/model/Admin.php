@@ -97,7 +97,7 @@ class Admin extends Model
     		foreach($img as $key=>$value){
     			static $images = [];
     			$images[$value['pos']] = $value['src'].'/'.$value['name'];
-    			$images[$value['pos']] = '__IMAGES__/'.substr($images[$value['pos']],strpos($images[$value['pos']],'article'));
+    			$images[$value['pos']] = '/static/images/'.substr($images[$value['pos']],strpos($images[$value['pos']],'article'));
     		}
     		$det['images'] = $images;
     	}

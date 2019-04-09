@@ -322,7 +322,8 @@ ul{ padding:5px; margin: 0; }
 	    ctx.drawImage(img, 0, 0, img.width, img.height);
 	    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
 	    //提取后缀
-	    var dataURL = canvas.toDataURL("");
+	    var dataURL = canvas.toDataURL(",");
+	    var eg = dataURL.substring( dataURL.indexOf('base64') );
 	    alert(dataURL)
 	    return dataURL;
 	}
