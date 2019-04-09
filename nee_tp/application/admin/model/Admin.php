@@ -22,7 +22,8 @@ class Admin extends Model
     		];
     		Db::name('article')->where('id',$id)->Update($article);
     		Db::name('photo p')->leftjoin('art_photo ap','p.id = ap.photo_id')->where('ap.art_id',$id)->Update(['is_del'=>1]);
-    		Db::name('art_photo')->where('art_id',$id)->delete();
+            Db::name('art_photo')->where('art_id',$data['art_id'])->delete();
+    		
     		if( isset($data['images']) ){
     			$img_pos = $data['img_pos'];
 		    	$day = substr(date('Ymd'),2);

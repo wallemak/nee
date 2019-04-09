@@ -68,14 +68,13 @@ class AdminController extends Controller
             $imgaes = Db::name('photo')->where('is_del',1)->select();
             foreach($imgaes as $val){
                 $file = $val['src'].'/'.$val['name'];
-                // if(is_file($file) ) unlink($file); 
+                if(is_file($file) ) unlink($file); 
             }
-            // Db::name('photo')->where('is_del',1)->delete();
+            Db::name('photo')->where('is_del',1)->delete();
             return ['error'=>'ok','content'=>'修改成功'];
         }else{
             return ['error'=>'400','content'=>'修改失败'];
         }
-        // return $res;
     }
 
     public function article_add()
