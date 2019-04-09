@@ -193,6 +193,7 @@ ul{ padding:5px; margin: 0; }
 
 	function det_click(id){
 		$('#art_id').attr('art_id',id);
+		formData.append('art_id',id);
 		$.ajax({
 			url:'article_det',
 			type:'post',
@@ -220,7 +221,7 @@ ul{ padding:5px; margin: 0; }
 		});
 		$('.jum').css('display','inline-block');
 		$('.badge').children('a').css('pointer-events','none');
-		$('#submit').attr('act_type','admin_edit');
+		$('#submit').attr('act_type','article_edit');
 	}
 
 	function jum_close()
@@ -316,15 +317,13 @@ ul{ padding:5px; margin: 0; }
 
 	function getBase64Image(img) {
 	    var canvas = document.createElement("canvas");
-	    // canvas.width = img.width;
-	    // canvas.height = img.height;
+	    canvas.width = img.width;
+	    canvas.height = img.height;
 	    var ctx = canvas.getContext("2d");
-	    ctx.drawImage(img, 0, 0, img.width, img.height);
+	    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 	    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
 	    //提取后缀
-	    var dataURL = canvas.toDataURL(",");
-	    var eg = dataURL.substring( dataURL.indexOf('base64') );
-	    alert(dataURL)
+	    var dataURL = canvas.toDataURL("");
 	    return dataURL;
 	}
 
@@ -341,14 +340,19 @@ ul{ padding:5px; margin: 0; }
 				formData.append('images[]',conversions,'img.png');
 			}else{
 				var pos = $(item).attr('pos');
-				image.crossOrigin = '';
-				image.src = $(item).attr('src');
-				image.onload = function(){
-					var base64 = getBase64Image(image);
-					base64_arr[pos] = base64;
-					var conversions = base64ToBlob(base64, type);
-					formData.append('images[]',conversions,'img.png');
-				}
+				var base64 = getBase64Image(item)
+				base64_arr[pos] = base64;
+				var conversions = base64ToBlob(base64, type);
+				formData.append('images[]',conversions,'img.png');
+
+				// image.crossOrigin = '';
+				// image.src = $(item).attr('src');
+				// image.onload = function(){
+				// 	var base64 = getBase64Image(image);
+				// 	base64_arr[pos] = base64;
+				// 	var conversions = base64ToBlob(base64, type);
+				// 	formData.append('images[]',conversions,'img.png');
+				// }
 			}
 		});
 		$("#editor").children('img').attr('src','none');
