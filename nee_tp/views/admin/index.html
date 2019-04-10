@@ -53,19 +53,21 @@ body{
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-1 nav-left" >
-			<ul class="nav nav-pills nav-stacked">
+			<ul class="nav nav-pills nav-stacked" id="ul_nav">
 				<li role="presentation" class="dropdown">
-				<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" onclick="nav_click(this.name)" name="home">
+				<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" name="home">
 				  index
 				</a>
 				</li>
 				<li role="presentation" class="dropdown">
-					<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" onclick="nav_click(this.name)" name="article_list">
+					<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" name="article_list">
 					  文章
 					</a>
-					<!-- <ul class="dropdown-menu">
-					 ...
-					</ul> -->
+				</li>
+				<li role="presentation" class="dropdown">
+					<a class="dropdown-toggle nav-ul" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" name="classify_list">
+					  分类
+					</a>
 				</li>
 			</ul>
 			</div>
@@ -96,6 +98,7 @@ body{
 	// 　　　　sessionStorage.setItem("offsetTop", $(window).scrollTop());
 	// 　　　}
 	// });
+
 	$(document).ready(function(){
 		var nav_name = sessionStorage.getItem('nav');
 		if(nav_name != null){
@@ -103,28 +106,20 @@ body{
 		}
 	});
 
-	function nav_click(e){
-		sessionStorage.setItem("nav", e);
-		$('#myiframe').attr('src','admin/'+e);
-		// $.ajax({
-		// 	url:'admin/'+e,
-		// 	type:'get',
-		// 	dataType:'json',
-		// 	success:function(r){
-		// 		$('.con_ul').html('');
-		// 		for(var i=0;i<r.length;i++){
-		// 			$('.con_ul').html(
-		// 				$('.con_ul').html()+
-		// 				'<li class="list-group-item" id_name="'+r[i].id+'">'+
-		// 				'<span class="badge">'+'<a href="javascript:void(0);">'+'删除'+'</a>'+'</span>'+
-		// 				'<span class="badge">'+'<a href="javascript:void(0);">'+'修改'+'</a>'+'</span>'+
-		// 				'<span class="badge">'+'<a href="javascript:void(0);">'+'详情'+'</a>'+'</span>'+
-		// 				r[i].title+
-		// 				'</li>'
-		// 			);
-		// 		}
-		// 	}
-		// });
+	var a = document.getElementById('ul_nav').getElementsByTagName('a');
+
+	for(var i=0;i<a.length;i++){
+		nav_click(i);	
+	}
+
+	function nav_click(k){
+		a[k].onclick = function()
+		{
+			// var name = list[k].getAttribute("name");
+			var name = $(this).attr('name');
+			sessionStorage.setItem("nav", name);
+			$('#myiframe').attr('src','admin/'+name);
+		}
 	}
 </script>
 </html>

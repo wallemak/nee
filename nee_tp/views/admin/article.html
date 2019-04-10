@@ -39,6 +39,7 @@ ul{ padding:5px; margin: 0; }
 .pager li a{ color:black; }
 .pager li a:hover{ color:#00BFFF; }
 .d_page{ position:absolute; bottom:50px; padding:5px 15px; width:100%; }
+.sin_btn{ margin-top:5px; }
 </style>
 </head>
 <body>
@@ -75,6 +76,14 @@ ul{ padding:5px; margin: 0; }
 			  <span class="input-group-addon" id="sizing-addon2">标题</span>
 			  <input type="text" class="form-control" placeholder="标题" aria-describedby="sizing-addon2" id="title">
 			</div>
+			<!-- Single button -->
+			<select class="sin_btn">
+				<option class_id="0">选择分类...</option>
+				{foreach $class_list as $val}
+				<option class_id="{$val.id}">{$val.name}</option>
+				{/foreach}
+			</select>
+			<!-- Single button -->
 			<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
 			<div class="btn-group">
 			<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
@@ -372,5 +381,6 @@ ul{ padding:5px; margin: 0; }
 		$('.jum').css('display','inline-block');
 		$('#submit').attr('act_type','article_add');
 	});
+
 </script>
 </html>

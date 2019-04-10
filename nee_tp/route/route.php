@@ -19,10 +19,14 @@
 Route::group('admin',function(){
 	Route::get('/','admin/AdminController/index');
 	Route::get('home','admin/AdminController/home');
+	//article
 	Route::get('article_list','admin/AdminController/article_list');
 	Route::post('article_det','admin/AdminController/article_det');
 	Route::post('article_edit','admin/AdminController/article_edit');
 	Route::post('article_add','admin/AdminController/article_add');
+	//classify
+	Route::get('classify_list','admin/Classify/list');
+
 
 } );
 //->middleware('Login')

@@ -47,7 +47,11 @@ class AdminController extends Controller
     {
         $data = Request::only(['page'=>1,'limit'=>10],'get');
         $list = $this->model->list($data);
-        $this->assign('list',$list);
+        $class_list = Db::name('classify')->field('id,name')->select();
+        $this->assign([
+            'list'=>$list,
+            'class_list'=>$class_list
+        ]);
         return $this->fetch('../views/admin/article.html');
 
     }
