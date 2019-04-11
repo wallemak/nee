@@ -31,6 +31,13 @@ class Classify extends Controller
 
     public function edit()
     {
-        
+        $data = Request::only(['id','name'],'post');
+        $data['update_time'] = time();
+        $res = DB::name('classify')->where('id',$data['id'])->Update($data);
+        if($res){
+            return ['error'=>'ok','content'=>'修改成功'];
+        }else{
+            return ['error'=>'400','content'=>'修改失败'];
+        }
     }
 }

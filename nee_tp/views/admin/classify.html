@@ -5,8 +5,8 @@
 <title>article</title>
 <link rel="stylesheet" type="text/css" href="__CSS__/admin/bootstrap.css">
 
-<mvc:annotation-driven enable-matrix-variables="true"></mvc:annotation-driven>  
-<context:component-scan base-package="com.th.action"></context:component-scan>  
+<mvc:annotation-driven enable-matrix-variables="true"></mvc:annotation-driven>
+<context:component-scan base-package="com.th.action"></context:component-scan>
 <mvc:default-servlet-handler/>
 
 <script type="text/javascript" src="__JS__/jquery.js"></script>
@@ -14,11 +14,12 @@
 <script type="text/javascript" src="__JS__/admin/layer/layer.js"></script>
 <style type="text/css">
 body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:100%; }
-
 .content li{ opacity:.8; margin:5px; border:none; border-radius:4px; }
 .content li:hover{ opacity: }
 .content a{ color:black; text-decoration:none; }
 .content a:hover{ color:#4876FF; text-decoration:none; }
+.input_list{ border:none; width:90%; cursor:pointer; }
+.input_list:focus{ border:1px solid #1E90FF; }
 </style>
 </head>
 <body>
@@ -26,9 +27,9 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 	<div class="content">
 		<ul class="list-group" id="con_ul">
 		{foreach $list as $value}
-			<a href="javascript:void(0);" class_id="{$value.id}">
-				<li class="list-group-item" ><input type="text" value="{$value.name}" readonly="readonly" ></li>
-			</a>
+			<!-- <a href="javascript:void(0);" class_id="{$value.id}"> -->
+			<li class="list-group-item" ><input type="text" class_id="{$value.id}" value="{$value.name}" readonly="readonly" class="input_list" ></li>
+			<!-- </a> -->
 		{/foreach}
 		</ul>
 	</div>
@@ -46,14 +47,56 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 <!-- footer -->
 </body>
 <script>
-
-	$('#con_ul li').click(function(){
-		// var val = $(this).children('input').val();
-		$(this).children('input').removeAttr("readonly");
-
+	var formData = new FormData();
+	$('#con_ul input').click(function(){
+		$(this).removeAttr("readonly");
 	});
 
+	$('#con_ul input').blur(function(){
+		var val = $(this).val();
+		formData.append('name',val);
+		formData.append('id',$(this).attr('class_id'));
+		$.ajax({
+			url:'classify_edit',
+			data:formData,
+			type:'post',
+			dataType:'json',
+			processData:false,
+			contentType:false,
+			async:false,
+			success:function(r){
+				if(r.error == 'ok'){
+					layer.open({
+					title:'',
+					content: r.content,
+					btnAlign:'c',
+					shade :0.5,
+					anim: 5,
+					closeBtn :0,
+					yes:function(index,layero){
+						layer.close(index);
+						$(this).attr('readonly','readonly');
+						location.reload();
+					}
+				    });
+				}else{
+					layer.open({
+					title:r.error,
+					content: r.content,
+					btnAlign:'c',
+					shade :0.5,
+					anim: 5,
+					closeBtn :0
+				    });
+				    $(this).attr('readonly','readonly');
+				}
+			}
 
+		});
+
+	});
+	
+	
 
 </script>
 </html>
