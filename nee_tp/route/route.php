@@ -27,6 +27,7 @@ Route::group('admin',function(){
 	//classify
 	Route::get('classify_list','admin/Classify/list');
 	Route::post('classify_edit','admin/Classify/edit');
+	Route::post('classify_add','admin/Classify/add');
 
 
 } );

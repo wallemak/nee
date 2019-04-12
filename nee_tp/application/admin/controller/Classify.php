@@ -26,7 +26,13 @@ class Classify extends Controller
 
     public function add()
     {
-
+        $data = Request::only('name','post');
+        $res = Db::name('calssify')->Update($data);
+        if($res){
+            return ['error'=>'ok','content'=>'添加成功'];
+        }else{
+            return ['error'=>'400','content'=>'添加失败'];
+        }
     }
 
     public function edit()
