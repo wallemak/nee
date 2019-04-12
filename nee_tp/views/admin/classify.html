@@ -29,7 +29,11 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 		<ul class="list-group" id="con_ul">
 		{foreach $list as $value}
 			<!-- <a href="javascript:void(0);" class_id="{$value.id}"> -->
-			<li class="list-group-item" ><input type="text" class_id="{$value.id}" value="{$value.name}" readonly="readonly" class="input_list" ></li>
+			<li class="list-group-item" ><input type="text" class_id="{$value.id}" value="{$value.name}" readonly="readonly" class="input_list" >
+				<span class="badge">
+					<a href="javascript:void(0);" id_="{$value.id}" >删除</a>
+				</span>
+			</li>
 			<!-- </a> -->
 		{/foreach}
 		</ul>
@@ -100,6 +104,10 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 			}
 
 		});
+
+	});
+
+	$('#con_ul a').click(function(){
 
 	});
 
