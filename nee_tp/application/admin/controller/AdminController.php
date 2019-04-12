@@ -9,7 +9,6 @@ use app\admin\model\Admin;
 use think\DB;
 use Cache;
 
-
 class AdminController extends Controller
 {
     public function __construct()
