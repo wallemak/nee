@@ -77,14 +77,25 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 				$(this).parent().siblings('input').removeClass('inp_border');
 				$(this).parent().siblings('input').focus();
 				$(this).attr('click_type','submit');
+				$(this).parent().prev().children('a').html('取消');
+				$(this).parent().prev().children('a').attr('click_type','clos');
 				$(this).html('保存');
 			break;
 			case 'delete':
+
 			break;
 			case 'submit':
-				$(this).attr('click_type','edit');
+				class_submit(class_id,val);
+				// $(this).attr('click_type','edit');
+
 			break;
 			case 'clos':
+				$(this).parent().siblings('input').attr("readonly","readonly");
+				$(this).html('删除');
+				$(this).attr('click_type','delete');
+				$(this).parent().next().children('a').html('修改');
+				$(this).parent().next().children('a').attr('click_type','edit');
+				$(this).parent().siblings('input').addClass('inp_border');
 			break;
 		}
 
@@ -127,6 +138,26 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 		});
 	});
 
+	function class_submit(id,name)
+	{
+		$.post('classify_edit',{id:id,name:name},function(data,stauts){
+			if(data.error == 'ok'){
+				layer.open({
+				title:'',
+				content: r.content,
+				btnAlign:'c',
+				shade :0.5,
+				anim: 5,
+				closeBtn :0,
+				yes:function(index,layero){
+					layer.close(index);
+					
+					// location.reload();
+				}
+			    });
+			}
+		},'json');
+	}
 
 </script>
 </html>
