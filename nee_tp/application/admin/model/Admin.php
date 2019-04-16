@@ -164,5 +164,20 @@ class Admin extends Model
     	return $list;
     }
 
+    public function del($id)
+    {
+    	Db::startTrans();
+    	try{
+    		Db::name('photo p')->leftjoin('art_photo ap','p.id = ap.photo_id')->where('ap.art_id',$id)->Update(['is_del'=>1]);
+    		Db::name('article')->where('id',$id)->delete();
+    		Db::name('art_photo')->where('art_id',$id)->delete();
+    		Db::commit();
+    		return true;
+    	} catch(\Exception $e){
+
+    		Db::rollback();
+    		return false;
+    	}
+    }
 
 }

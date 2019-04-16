@@ -24,6 +24,7 @@ Route::group('admin',function(){
 	Route::post('article_det','admin/AdminController/article_det');
 	Route::post('article_edit','admin/AdminController/article_edit');
 	Route::post('article_add','admin/AdminController/article_add');
+	Route::post('article_del','admin/AdminController/article_del');
 	//classify
 	Route::get('classify_list','admin/Classify/list');
 	Route::post('classify_edit','admin/Classify/edit');

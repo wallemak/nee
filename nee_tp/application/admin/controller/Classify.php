@@ -31,7 +31,7 @@ class Classify extends Controller
     public function add()
     {
         $data = Request::only('name','post');
-        
+
         $rule = ['name'=>'require|unique:classify'];
         $messages = ['name.require'=>'名称不能为空','name.unique'=>'分类名称已存在,不能重复添加'];
         $validate = Validate::make($rule,$messages);
@@ -65,6 +65,6 @@ class Classify extends Controller
         $con = Db::name('article')->where('class_id',$id)->count();
         if($con !=0) return ['error'=>400,'content'=>'该分类下有文章,不能删除'];
         Db::name('classify')->where('id',$id)->delete();
-        ['error'=>'ok','content'=>'删除成功'];
+        return ['error'=>'ok','content'=>'删除成功'];
     }
 }

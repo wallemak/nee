@@ -58,7 +58,7 @@ class AdminController extends Controller
     public function article_det()
     {
         $id = Request::param('id');
-        // return $id;
+
         $det = $this->model->article_det($id);
         return $det;
     }
@@ -88,6 +88,25 @@ class AdminController extends Controller
             return ['error'=>'ok','content'=>'添加成功'];
         }else{
             return ['error'=>'400','content'=>'添加失败'];
+        }
+    }
+
+    public function article_del()
+    {
+        $id = Request::param('id');
+        $res = $this->model->del($id);
+        if($res){
+            $imgaes = Db::name('photo')->where('is_del',1)->select();
+            foreach($imgaes as $val){
+                $file = $val['src'].'/'.$val['name'];
+                if(is_file($file) ) unlink($file);
+                $path =  $val['src'];
+                if( is_dir($path) && count( scandir($path) ) == 2 ) rmdir($path);
+            }
+            Db::name('photo')->where('is_del',1)->delete();
+            return ['error'=>'ok','content'=>'删除成功'];
+        }else{
+            return ['error'=>'400','content'=>'删除失败'];
         }
     }
 

@@ -166,7 +166,7 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 
 	function class_delete(id)
 	{
-		$.post('classify_del',{id:id,name:name},function(data,stauts){
+		$.post('classify_del',{id:id},function(data,stauts){
 			if(data.error == 'ok'){
 				layer.open({
 				title:'',

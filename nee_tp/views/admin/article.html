@@ -197,7 +197,39 @@ ul{ padding:5px; margin: 0; }
 
 
 	function del_click(id){
-		
+		layer.confirm('确认删除？',{
+			btn:['确定','取消']
+		},function(index){
+			layer.close(index);
+			let load = layer.load(0,{shade: [0.7, '#393D49']}, {shadeClose: true});
+			$.post('article_del',{id:id},function(data,status){
+				if(data.error == 'ok'){
+					// layer.open({
+					// title:'',
+					// content: data.content,
+					// btnAlign:'c',
+					// shade :0.5,
+					// anim: 5,
+					// closeBtn :0,
+					// yes:function(index,layero){
+					// 	layer.close(index);
+					// 	// layer.close(load);
+					// 	location.reload();
+					// }
+				 //    });
+				}else{
+					layer.open({
+					title:data.error,
+					content: data.content,
+					btnAlign:'c',
+					shade :0.5,
+					anim: 5,
+					closeBtn :0
+				    });
+				}
+			},'json');
+
+		});
 	}
 
 	function det_click(id){
