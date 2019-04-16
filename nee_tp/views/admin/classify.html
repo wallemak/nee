@@ -28,7 +28,6 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 	<div class="content">
 		<ul class="list-group" id="con_ul">
 		{foreach $list as $value}
-			<!-- <a href="javascript:void(0);" class_id="{$value.id}"> -->
 			<li class="list-group-item" >
 				<input type="text" class_id="{$value.id}" value="{$value.name}" readonly="readonly" class="input_list inp_border" >
 				<span class="badge">
@@ -82,12 +81,10 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 				$(this).html('保存');
 			break;
 			case 'delete':
-
+				class_delete(class_id);
 			break;
 			case 'submit':
 				class_submit(class_id,val);
-				// $(this).attr('click_type','edit');
-
 			break;
 			case 'clos':
 				$(this).parent().siblings('input').attr("readonly","readonly");
@@ -110,11 +107,11 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 	});
 	$('.submit').click(function(){
 		let name = $('.add_hidden').val();
-		$.post('classify_add',{name:name},function(r){
-			if(r.error == 'ok'){
+		$.post('classify_add',{name:name},function(data){
+			if(data.error == 'ok'){
 				layer.open({
 				title:'',
-				content: r.content,
+				content: data.content,
 				btnAlign:'c',
 				shade :0.5,
 				anim: 5,
@@ -127,8 +124,8 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 			    });
 			}else{
 				layer.open({
-				title:r.error,
-				content: r.content,
+				title:data.error,
+				content: data.content,
 				btnAlign:'c',
 				shade :0.5,
 				anim: 5,
@@ -144,16 +141,53 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 			if(data.error == 'ok'){
 				layer.open({
 				title:'',
-				content: r.content,
+				content: data.content,
 				btnAlign:'c',
 				shade :0.5,
 				anim: 5,
 				closeBtn :0,
 				yes:function(index,layero){
 					layer.close(index);
-					
-					// location.reload();
+					location.reload();
 				}
+			    });
+			}else{
+				layer.open({
+				title:data.error,
+				content: data.content,
+				btnAlign:'c',
+				shade :0.5,
+				anim: 5,
+				closeBtn :0
+			    });
+			}
+		},'json');
+	}
+
+	function class_delete(id)
+	{
+		$.post('classify_del',{id:id,name:name},function(data,stauts){
+			if(data.error == 'ok'){
+				layer.open({
+				title:'',
+				content: data.content,
+				btnAlign:'c',
+				shade :0.5,
+				anim: 5,
+				closeBtn :0,
+				yes:function(index,layero){
+					layer.close(index);
+					location.reload();
+				}
+			    });
+			}else{
+				layer.open({
+				title:data.error,
+				content: data.content,
+				btnAlign:'c',
+				shade :0.5,
+				anim: 5,
+				closeBtn :0
 			    });
 			}
 		},'json');
