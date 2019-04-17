@@ -43,11 +43,6 @@ class LoginController extends Controller
             return ['error'=>401,'content'=>'证书错误'];
         }
         $res = $this->model->login($data);
-        // if(is_null($res)){
-        //     return ['error'=>400,'content'=>'账号或密码错误'];
-        // }else{
-        //     return ['content'=>'登录成功'];
-        // }
         return $res;
     }
 

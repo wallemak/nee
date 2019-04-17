@@ -23,10 +23,13 @@ class Login extends Model
             $user = $admin['user'];
             $ip = $this->getIp();
             $key = base64_encode(uniqid(md5(microtime(true)),true).$ip);
+            $old_ip = redis()->get($user);
+            if($old_ip) redis()->rm($old_ip);
             redis()->set($user,$ip,86400);
             redis()->set($ip,$key,86400);
+            return ['error'=>'ok','content'=>$key];
         }
-    	return $admin;
+    	return ['error'=>400,'content'=>'账户或密码错误'];
     	
     }
 
