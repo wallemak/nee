@@ -77,7 +77,8 @@ body{
 		var password = encrypted;
 		if($("#password").val() !=''){
 			$.ajax({
-				url:'login',
+				url:'/login',
+				// url:,
 				type:'post',
 				data:{'username':user,'password':password},
 				dataType:'json',

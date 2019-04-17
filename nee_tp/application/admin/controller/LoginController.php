@@ -34,18 +34,17 @@ class LoginController extends Controller
 
     public function login()
     {
+        // $data = Request::only(['username','password'],'post');
         $data = Request::only(['username','password']);
-        return $data;
         $info = Request::header();
         // return $info;
-
         $data['password'] = openssl()->authcode($data['password'],'D');
         if($data['password'] == '证书错误'){
             return ['error'=>401,'content'=>'证书错误'];
         }
         $res = $this->model->login($data);
         // if(is_null($res)){
-        //     return ['error'=>403,'content'=>'账号或密码错误'];
+        //     return ['error'=>400,'content'=>'账号或密码错误'];
         // }else{
         //     return ['content'=>'登录成功'];
         // }

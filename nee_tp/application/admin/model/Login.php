@@ -12,9 +12,8 @@ class Login extends Model
     public function login($data)
     {
         static $user;
-        dd($data);
+
     	$data['password'] = md5($data['password']);
-        dd($pwd);
     	$arr = [
     		'user'=>$data['username'],
     		'password' =>$data['password'],
@@ -22,10 +21,10 @@ class Login extends Model
     	$admin = DB::name('admin')->where($arr)->find();
         if($admin){
             $user = $admin['user'];
-            $key = base64_encode(uniqid(md5(microtime(true)),true));
             $ip = $this->getIp();
-            redis()->set($user,$key);
-        
+            $key = base64_encode(uniqid(md5(microtime(true)),true).$ip);
+            redis()->set($user,$ip,86400);
+            redis()->set($ip,$key,86400);
         }
     	return $admin;
     	
