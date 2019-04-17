@@ -18,7 +18,7 @@ class Admin extends Model
     		$article = [
     			'title' =>$data['title'],
     			'content'=>$data['content'],
-    			'class_id'=>1,
+    			'class_id'=>$data['class_id'],
     		];
     		Db::name('article')->where('id',$id)->Update($article);
     		Db::name('photo p')->leftjoin('art_photo ap','p.id = ap.photo_id')->where('ap.art_id',$id)->Update(['is_del'=>1]);
@@ -80,7 +80,7 @@ class Admin extends Model
     		$article = [
     			'title' =>$data['title'],
     			'content'=>$data['content'],
-    			'class_id'=>1,
+    			'class_id'=>$data['class_id'],
     			'create_time'=>time()
     		];
     		$art_id = Db::name('article')->insertGetId($article);

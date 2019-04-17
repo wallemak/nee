@@ -32,12 +32,10 @@ Route::group('admin',function(){
 	Route::post('classify_del','admin/Classify/del');
 
 
-} );
-//->middleware('Login')
+} )->middleware('Login');
 Route::group('blog',function(){
 	Route::get('/','home/IndexController/index');
 	// Route::get('article_list','home/')
 });
-Route::get('login','admin/LoginController/index');
 Route::post('login','admin/LoginController/login');
 Route::get('test', 'admin/AdminController/test');

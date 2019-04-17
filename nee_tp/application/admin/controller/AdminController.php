@@ -8,6 +8,7 @@ use think\facade\Request;
 use app\admin\model\Admin;
 use think\DB;
 use Cache;
+use think\Validate;
 
 class AdminController extends Controller
 {
@@ -15,6 +16,8 @@ class AdminController extends Controller
     {
         parent::__construct();
         $this->model = new Admin();
+        $this->rule = ['class_id'=>'require','title'=>'require'];
+        $this->massage = ['class_id.require'=>'分类不能为空','title.require'=>'标题不能为空'];
     }
 
     /**
@@ -60,6 +63,7 @@ class AdminController extends Controller
         $id = Request::param('id');
 
         $det = $this->model->article_det($id);
+        // dd($det);
         return $det;
     }
 

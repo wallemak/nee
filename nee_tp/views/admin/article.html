@@ -77,8 +77,8 @@ ul{ padding:5px; margin: 0; }
 			  <input type="text" class="form-control" placeholder="标题" aria-describedby="sizing-addon2" id="title">
 			</div>
 			<!-- Single button -->
-			<select class="sin_btn">
-				<option class_id="0">选择分类...</option>
+			<select class="sin_btn" autocomplete="off">
+				<option class_id="">选择分类...</option>
 				{foreach $class_list as $val}
 				<option class_id="{$val.id}">{$val.name}</option>
 				{/foreach}
@@ -200,8 +200,6 @@ ul{ padding:5px; margin: 0; }
 		layer.confirm('确认删除？',{
 			btn:['确定','取消']
 		},function(index){
-			layer.close(index);
-			let load = layer.load(0,{shade: [0.7, '#393D49']}, {shadeClose: true});
 			$.post('article_del',{id:id},function(data,status){
 				if(data.error == 'ok'){
 					layer.open({
@@ -215,7 +213,6 @@ ul{ padding:5px; margin: 0; }
 					btn:['确认'],
 					yes:function(index,layero){
 						layer.close(index);
-						// layer.close(load);
 						location.reload();
 					}
 				    });
@@ -236,7 +233,7 @@ ul{ padding:5px; margin: 0; }
 
 	function det_click(id){
 		$('#art_id').attr('art_id',id);
-		formData.append('art_id',id);
+		// formData.append('art_id',id);
 		$.ajax({
 			url:'article_det',
 			type:'post',
@@ -247,14 +244,12 @@ ul{ padding:5px; margin: 0; }
 				$('#editor').html(r.content);
 				$('#title').val(r.title);
 				var imgs = $('#editor').children('img');
-
 				$.each(imgs,function(index,item){
 					var pos = $(item).attr('pos');
 					$(item).attr('src',r.images[pos]);
-					// var base64 = getBase64Image(item);
-					// $(item).attr('src',base64);
-
 				});
+				$('.sin_btn option').removeAttr('selected');
+				$('.sin_btn').find("option[class_id="+r.class_id+"]").prop("selected",true);
 			},
 			error:function(jqXHR,textStatus,errorThrown) {
 				console.log(jqXHR);
@@ -388,15 +383,6 @@ ul{ padding:5px; margin: 0; }
 				base64_arr[pos] = base64;
 				var conversions = base64ToBlob(base64, type);
 				formData.append('images[]',conversions,'img.png');
-
-				// image.crossOrigin = '';
-				// image.src = $(item).attr('src');
-				// image.onload = function(){
-				// 	var base64 = getBase64Image(image);
-				// 	base64_arr[pos] = base64;
-				// 	var conversions = base64ToBlob(base64, type);
-				// 	formData.append('images[]',conversions,'img.png');
-				// }
 			}
 		});
 		$("#editor").children('img').attr('src','none');
@@ -408,6 +394,7 @@ ul{ padding:5px; margin: 0; }
 			formData.append('img_pos[]',item_pos);
 		});
 		formData.append('title',$('#title').val());	
+		formData.append('class_id',$('.sin_btn').find("option:selected").attr('class_id') );
 	}
 
 	$('#a_add').click(function(){

@@ -30,7 +30,7 @@ class Login extends Controller
         // $r = Cache::store('redis')->get($realip);
         $r = redis()->get($realip);
         if(!$r){
-            return $this->redirect('admin/login/index')->remember();
+            return $this->redirect('admin/loginController/index')->remember();
           }
 
     	return $next($request);

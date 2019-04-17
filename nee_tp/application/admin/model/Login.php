@@ -12,7 +12,9 @@ class Login extends Model
     public function login($data)
     {
         static $user;
+        dd($data);
     	$data['password'] = md5($data['password']);
+        dd($pwd);
     	$arr = [
     		'user'=>$data['username'],
     		'password' =>$data['password'],
@@ -22,11 +24,9 @@ class Login extends Model
             $user = $admin['user'];
             $key = base64_encode(uniqid(md5(microtime(true)),true));
             $ip = $this->getIp();
-            redis()->ser($user,$ip);
-            redis()->ser($ip,$key);
+            redis()->set($user,$key);
         
         }
-
     	return $admin;
     	
     }
