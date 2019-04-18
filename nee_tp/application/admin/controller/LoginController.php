@@ -26,16 +26,14 @@ class LoginController extends Controller
      */
     public function index()
     {
-        //
-        // return 'login_index';
         return $this->fetch('../views/admin/login.html');
     }
 
 
     public function login()
     {
-        // $data = Request::only(['username','password'],'post');
-        $data = Request::only(['username','password']);
+        $data = Request::only(['username','password'],'post');
+        // $data = Request::only(['username','password']);
         $info = Request::header();
         // return $info;
         $data['password'] = openssl()->authcode($data['password'],'D');
