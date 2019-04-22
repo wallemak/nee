@@ -31,6 +31,7 @@ class AdminController extends Controller
     }
     public function test()
     {
+        return 'test';
         // redis()->set('aaa','123',10086);
         // $aaa = redis()->get('123');
         // redis()->rm('aaa');

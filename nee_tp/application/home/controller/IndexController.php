@@ -1,20 +1,21 @@
 <?php
 
-namespace app\home\conterller;
+namespace app\home\controller;
 
 use think\Controller;
 use think\Request;
 
 class IndexController extends Controller
 {
-    /**
-     * 显示资源列表
-     *
-     * @return \think\Response
-     */
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+
     public function index()
     {
-        //
+        // return 23333;
     }
 
 }

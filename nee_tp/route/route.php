@@ -33,7 +33,7 @@ Route::group('admin',function(){
 
 
 } )->middleware('Login');
-Route::group('blog',function(){
+Route::group('',function(){
 	Route::get('/','home/IndexController/index');
 	// Route::get('article_list','home/')
 });

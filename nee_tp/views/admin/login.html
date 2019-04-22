@@ -82,9 +82,32 @@ body{
 				type:'post',
 				data:{'username':user,'password':password},
 				dataType:'json',
-				headers:{'key':'value'},
-				success:function(r){
-					console.log(r);
+				success:function(data){
+					if(data.error == 'ok'){
+						sessionStorage.setItem("token", data.token);
+						layer.open({
+						title:'',
+						content: data.content,
+						btnAlign:'c',
+						shade :0.5,
+						anim: 5,
+						closeBtn :0,
+						yes:function(index,layero)
+						{
+							layer.close(index);
+							location.reload();
+						}
+					    });
+					}else{
+						layer.open({
+						title:data.error,
+						content: data.content,
+						btnAlign:'c',
+						shade :0.5,
+						anim: 5,
+						closeBtn :0
+					    });
+					}
 				},
 				error:function(e){
 					console.log(e);
