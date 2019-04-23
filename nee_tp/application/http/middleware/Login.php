@@ -29,9 +29,9 @@ class Login extends Controller
                 }
         }
         // $r = Cache::store('redis')->get($realip);
-        $header = Request::header()['token'];
+        $header = Request::header();
         $r = redis()->get($realip);
-        if(!$r || !isset($header['token'] || $r!=$header['token'])){
+        if(!$r || !isset($header['token']) || $r!=$header['token']){
             return $this->redirect('admin/loginController/index')->remember();
         }
         
