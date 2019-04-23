@@ -4,6 +4,7 @@ namespace app\http\middleware;
 
 use think\Controller;
 use Cache;
+use think\facade\Request;
 
 
 class Login extends Controller
@@ -28,10 +29,13 @@ class Login extends Controller
                 }
         }
         // $r = Cache::store('redis')->get($realip);
+        $header = Request::header()['token'];
         $r = redis()->get($realip);
-        if(!$r){
+        if(!$r || !isset($header['token'] || $r!=$header['token'])){
             return $this->redirect('admin/loginController/index')->remember();
-          }
+        }
+        
+
 
     	return $next($request);
     }

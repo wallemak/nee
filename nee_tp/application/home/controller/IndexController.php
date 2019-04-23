@@ -15,7 +15,7 @@ class IndexController extends Controller
 
     public function index()
     {
-        // return 23333;
+        return 23333;
     }
 
 }

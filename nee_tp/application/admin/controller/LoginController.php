@@ -35,7 +35,7 @@ class LoginController extends Controller
         $data = Request::only(['username','password'],'post');
         // $data = Request::only(['username','password']);
         $info = Request::header();
-        // return $info;
+        // dd($info);
         $data['password'] = openssl()->authcode($data['password'],'D');
         if($data['password'] == '证书错误'){
             return ['error'=>401,'content'=>'证书错误'];
