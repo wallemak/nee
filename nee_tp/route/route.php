@@ -34,7 +34,8 @@ Route::group('admin',function(){
 	Route::post('classify_del','admin/Classify/del');
 
 
-} )->middleware('Login');
+} );
+// ->middleware('Login');
 
 
 Route::group('',function(){
