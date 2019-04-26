@@ -233,7 +233,7 @@ ul{ padding:5px; margin: 0; }
 
 	function det_click(id){
 		$('#art_id').attr('art_id',id);
-		// formData.append('art_id',id);
+		formData.append('art_id',id);
 		$.ajax({
 			url:'article_det',
 			type:'post',
@@ -402,6 +402,12 @@ ul{ padding:5px; margin: 0; }
 		$('#editor').html('');
 		$('.jum').css('display','inline-block');
 		$('#submit').attr('act_type','article_add');
+	});
+
+	$('.next').click(function(){
+		// $.get('/article_list',{limit:123},function(data,stauts){
+
+		// });
 	});
 
 </script>

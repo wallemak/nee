@@ -20,12 +20,14 @@ Route::group('admin',function(){
 	Route::get('/','admin/AdminController/index');
 	Route::get('home','admin/AdminController/home');
 	//article
+	Route::get('article','admin/AdminController/article_index');
 	Route::get('article_list','admin/AdminController/article_list');
 	Route::post('article_det','admin/AdminController/article_det');
 	Route::post('article_edit','admin/AdminController/article_edit');
 	Route::post('article_add','admin/AdminController/article_add');
 	Route::post('article_del','admin/AdminController/article_del');
 	//classify
+	Route::get('classify','admin/Classify/index');
 	Route::get('classify_list','admin/Classify/list');
 	Route::post('classify_edit','admin/Classify/edit');
 	Route::post('classify_add','admin/Classify/add');
@@ -33,6 +35,8 @@ Route::group('admin',function(){
 
 
 } )->middleware('Login');
+
+
 Route::group('',function(){
 	Route::get('/','home/IndexController/index');
 	// Route::get('article_list','home/')

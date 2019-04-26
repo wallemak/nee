@@ -31,7 +31,8 @@ class AdminController extends Controller
     }
     public function test()
     {
-        return 'test';
+        // return 'test';
+        dd(Request::url());
         // redis()->set('aaa','123',10086);
         // $aaa = redis()->get('123');
         // redis()->rm('aaa');
@@ -42,6 +43,11 @@ class AdminController extends Controller
     public function home()
     {
         return 'admin_home';
+    }
+
+    public function article_index()
+    {
+        return $this->fetch('../views/admin/article.html');
     }
 
     public function article_list()

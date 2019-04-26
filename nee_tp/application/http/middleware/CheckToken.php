@@ -7,11 +7,10 @@ use Cache;
 use think\facade\Request;
 
 
-class Login extends Controller
+class CheckToken extends Controller
 {
     public function handle($request, \Closure $next)
     {
-  
     	if(isset($_SERVER)){    
             if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
                 $realip = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -29,19 +28,10 @@ class Login extends Controller
                   $realip = getenv("REMOTE_ADDR");
                 }
         }
-        // $r = Cache::store('redis')->get($realip);
-        $header = Request::header();
-        $r = redis()->get($realip);
-        // 
-        // dd(Request::url()); //"/admin/classify_list"
-        // dd(substr(Request::url(),strripos(Request::url(),'/')+1));
 
-        if(!$r){
-            return $this->redirect('admin/loginController/index')->remember();
+        if( !array_key_exists('token',Request::header()) ){
+        	
         }
-        
-
-
     	return $next($request);
     }
 }

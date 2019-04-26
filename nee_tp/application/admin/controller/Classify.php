@@ -19,6 +19,11 @@ class Classify extends Controller
         // ];
     }
 
+    public function index()
+    {
+        return $this->fetch('../views/admin/classify.html');
+    }
+
     public function list()
     {
         $list = Db::name('classify')->select();
