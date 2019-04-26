@@ -52,7 +52,7 @@ class AdminController extends Controller
 
     public function article_list()
     {
-        $data = Request::only(['page'=>1,'limit'=>10],'get');
+        $data = Request::only(['page'=>1,'limit'=>5],'get');
         $list = $this->model->list($data);
         $class_list = Db::name('classify')->field('id,name')->select();
         $json = json_decode('{}');

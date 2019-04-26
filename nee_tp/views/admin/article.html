@@ -37,15 +37,14 @@ ul{ padding:5px; margin: 0; }
 .slider  i{ display:block; border-radius:50%; border:1px solid black; width:45%; height:100%; position:absolute; top:0; left:21px; background-color:white; }
 .close i{ left:0; }
 .a_close{ pointer-events:none; }
-.pager li a{ color:black; }
+.pager li a{ color:black;}
 .pager li a:hover{ color:#00BFFF; }
-.d_page{ position:absolute; bottom:50px; padding:5px 15px; width:100%; }
+.d_page{ position:absolute; bottom:-20px; padding:5px 15px; width:100%; margin:0;}
 .sin_btn{ margin-top:5px; }
 </style>
 </head>
 <body>
 	<ul class="list-group" id="art_list">
-		
 	  <li class="list-group-item"  v-for="item in list">
 	  	{{ item.title }}
 	    <span class="badge">
@@ -55,7 +54,6 @@ ul{ padding:5px; margin: 0; }
 	    	<a href="javascript:void(0);" :id_ = item.id onclick="det_click(this.getAttribute('id_'))">详情</a>
 	    </span>
 	  </li>
-	  
 	</ul>
 	<div class="d_page">
 		<nav aria-label="...">
@@ -185,9 +183,15 @@ ul{ padding:5px; margin: 0; }
 <script type="text/javascript">
 	window.onload=function()
 	{
-		var limit = sessionStorage.getItem('art_limit')? limit = sessionStorage.getItem('art_limit'):10;
-		var page = sessionStorage.getItem('art_page')? sessionStorage.getItem('art_page'):1;
-		GetArtlist(limit,page);
+		// sessionStorage.setItem('art_page',1);
+		limit = sessionStorage.getItem('art_limit')? limit = sessionStorage.getItem('art_limit'):10;
+		page = sessionStorage.getItem('art_page')? sessionStorage.getItem('art_page'):1;
+		$.get('article_list',{limit:limit,page:page},function(data,status){
+			art_list = new Vue({ el:'#art_list',data:{list:data.list} });
+			new Vue({ el:'.sin_btn',data:{list:data.class_list} });
+			page==1?document.getElementById('previous').className+= ' '+'disabled':document.getElementById('previous').className='previous';
+			data.list.length<10?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
+		},'json');
 		
 	}
 	$('#editor'). wysiwyg();
@@ -411,18 +415,19 @@ ul{ padding:5px; margin: 0; }
 	});
 
 	$('.next').click(function(){
-		sessionStorage.setItem('art_page',page+1);
-		GetArtlist(limit,sessionStorage.getItem('art_page'));
+		var page = Number(sessionStorage.getItem('art_page'))+1;
+		$.get('article_list',{page:page},function(data,stauts){
+			art_list.$data.list = data.list;
+			data.list.length<10?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
+		},'json');
 	});
 
-	function GetArtlist(limit,page)
-	{
-		$.get('article_list',{limit:limit,page:page},function(data,status){
-			new Vue({ el:'#art_list',data:{list:data.list} });
-			new Vue({ el:'.sin_btn',data:{list:data.class_list} });
-			page==1?document.getElementById('previous').className+= ' '+'disabled':document.getElementById('previous').className='previous';
-			data.list.length<=10?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
+	$('.previous').click(function(){
+		var page = Number(sessionStorage.getItem('art_page'))-1;
+		$.get('article_list',{page:page},function(data,stauts){
+			art_list.$data.list = data.list;
 		},'json');
-	}
+	});
+
 </script>
 </html>
