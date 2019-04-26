@@ -39,7 +39,7 @@ ul{ padding:5px; margin: 0; }
 .a_close{ pointer-events:none; }
 .pager li a{ color:black;}
 .pager li a:hover{ color:#00BFFF; }
-.d_page{ position:absolute; bottom:-20px; padding:5px 15px; width:100%; margin:0;}
+.d_page{ position:absolute; bottom:50px; padding:5px 15px; width:100%; margin:0;}
 .sin_btn{ margin-top:5px; }
 </style>
 </head>
@@ -184,13 +184,13 @@ ul{ padding:5px; margin: 0; }
 	window.onload=function()
 	{
 		// sessionStorage.setItem('art_page',1);
-		limit = sessionStorage.getItem('art_limit')? limit = sessionStorage.getItem('art_limit'):10;
+		limit = sessionStorage.getItem('art_limit')? limit = sessionStorage.getItem('art_limit'):5;
 		page = sessionStorage.getItem('art_page')? sessionStorage.getItem('art_page'):1;
 		$.get('article_list',{limit:limit,page:page},function(data,status){
 			art_list = new Vue({ el:'#art_list',data:{list:data.list} });
 			new Vue({ el:'.sin_btn',data:{list:data.class_list} });
 			page==1?document.getElementById('previous').className+= ' '+'disabled':document.getElementById('previous').className='previous';
-			data.list.length<10?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
+			data.list.length<5?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
 		},'json');
 		
 	}
@@ -415,16 +415,16 @@ ul{ padding:5px; margin: 0; }
 	});
 
 	$('.next').click(function(){
-		var page = Number(sessionStorage.getItem('art_page'))+1;
-		$.get('article_list',{page:page},function(data,stauts){
+		sessionStorage.getItem('art_page')?sessionStorage.setItem('art_page',Number(sessionStorage.getItem('art_page'))+1):sessionStorage.setItem('art_page',2);
+		$.get('article_list',{page:sessionStorage.getItem('art_page')},function(data,stauts){
 			art_list.$data.list = data.list;
-			data.list.length<10?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
+			data.list.length<5?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
 		},'json');
 	});
 
 	$('.previous').click(function(){
-		var page = Number(sessionStorage.getItem('art_page'))-1;
-		$.get('article_list',{page:page},function(data,stauts){
+		sessionStorage.setItem('art_page',Number(sessionStorage.getItem('art_page'))-1);
+		$.get('article_list',{page:sessionStorage.getItem('art_page')},function(data,stauts){
 			art_list.$data.list = data.list;
 		},'json');
 	});
