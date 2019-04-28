@@ -26,11 +26,13 @@ class Classify extends Controller
 
     public function list()
     {
-        $list = Db::name('classify')->select();
-        $this->assign([
-            'list' => $list,
-        ]);
-        return $this->fetch('../views/admin/classify.html');
+        $data = Request::only(['page'=>1,'limit'=>5],'get');
+        $count = Db::name('classify')->count();
+        $list = Db::name('classify')->page($data['page'],$data['limit'])->select();
+        $json = json_decode('{}');
+        $json->count = $count;
+        $json->list = $list;
+        return $json;
     }
 
     public function add()

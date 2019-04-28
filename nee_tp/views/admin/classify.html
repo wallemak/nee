@@ -12,6 +12,7 @@
 <script type="text/javascript" src="__JS__/jquery.js"></script>
 <script type="text/javascript" src="__JS__/admin/bootstrap.min.js"></script>
 <script type="text/javascript" src="__JS__/admin/layer/layer.js"></script>
+<script type="text/javascript" src="__JS__/vue.js"></script>
 <style type="text/css">
 body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:100%; }
 .content li{ opacity:.8; margin:5px; border:none; border-radius:4px; }
@@ -22,24 +23,24 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 .add_div{ text-align:center;display:inline-block;margin:0 auto; }
 .inp_border{ border:none; }
 .d_page{ position:absolute; bottom:50px; padding:5px 15px; width:100%; }
+.badge a{ color:white; text-decoration:none; }
+.badge a:hover{ color:#97FFFF; text-decoration:none; }
 </style>
 </head>
 <body>
 <!-- container -->
 	<div class="content">
 		<ul class="list-group" id="con_ul">
-		{foreach $list as $value}
-			<li class="list-group-item" >
-				<input type="text" class_id="{$value.id}" value="{$value.name}" readonly="readonly" class="input_list inp_border" >
+			<li class="list-group-item" v-for="item in list">
+				<input type="text" :class_id=item.id :value=item.name readonly="readonly" class="input_list inp_border" >
 				<span class="badge">
-					<a href="javascript:void(0);" id_="{$value.id}" click_type="delete">删除</a>
+					<a href="javascript:void(0);" id_="" click_type="delete">删除</a>
 				</span>
 				<span class="badge">
-					<a href="javascript:void(0);" id_="{$value.id}" click_type="edit">修改</a>
+					<a href="javascript:void(0);" id_="" click_type="edit">修改</a>
 				</span>
 			</li>
 			<!-- </a> -->
-		{/foreach}
 		</ul>
 	</div>
 <!-- container -->
@@ -47,7 +48,7 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 	<div class="d_page">
 		<nav aria-label="...">
 		  <ul class="pager">
-		    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+		    <li class="previous" id="previous"><a href="javascript:void(0)"><span aria-hidden="true">&larr;</span> Previous</a></li>
 		    <li style="opacity:1;">
 		    	<a href="javascript:void(0)" id='a_add'>添加</a>
 		    	<div class="input-group add_div">
@@ -56,13 +57,23 @@ body{ background-color:transparent; margin: 0; padding: 0; width:100%; height:10
 		    	    <button class="btn btn-default clos" type="button" style="display:none">取消</button></span>
 		    	</div>
 		    </li>
-		    <li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+		    <li class="next" id="next"><a href="javascript:void(0)">Newer <span aria-hidden="true">&rarr;</span></a></li>
 		  </ul>
 		</nav>
 	</div>
 <!-- footer -->
 </body>
 <script>
+	window.onload = function()
+	{
+		page = sessionStorage.getItem('class_page')?sessionStorage.getItem('class_page'):1;
+		page==1?document.getElementById('previous').className+= ' '+'disabled':document.getElementById('previous').className='previous';
+		$.get('classify_list',{},function(data,stauts){
+			console.log(data);
+			new Vue({ el:'#con_ul',data:{list:data.list} });
+			data.count<=5?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
+		});
+	}
 	var formData = new FormData();
 
 	$('#con_ul a').click(function(){
