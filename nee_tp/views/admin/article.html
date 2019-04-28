@@ -60,7 +60,7 @@ ul{ padding:5px; margin: 0; }
 		  <ul class="pager">
 		    <li class="previous" id="previous"><a href="javascript:void(0)"><span aria-hidden="true">&larr;</span> Previous</a></li>
 		    <li style="opacity:1;"><a href="javascript:void(0)" id='a_add'>添加</a></li>
-		    <li class="next" id="next"><a href="javascript:void(0)">Newer <span aria-hidden="true">&rarr;</span></a></li>
+		    <li class="next" id="next" is_end="1"><a href="javascript:void(0)">Newer <span aria-hidden="true">&rarr;</span></a></li>
 		  </ul>
 		</nav>
 	</div>
@@ -187,13 +187,16 @@ ul{ padding:5px; margin: 0; }
 		limit = sessionStorage.getItem('art_limit')? limit = sessionStorage.getItem('art_limit'):5;
 		page = sessionStorage.getItem('art_page')? sessionStorage.getItem('art_page'):1;
 		$.get('article_list',{limit:limit,page:page},function(data,status){
+			// console.log(data);
+			list_count = data.count-page*5+5;
 			art_list = new Vue({ el:'#art_list',data:{list:data.list} });
 			new Vue({ el:'.sin_btn',data:{list:data.class_list} });
 			page==1?document.getElementById('previous').className+= ' '+'disabled':document.getElementById('previous').className='previous';
-			data.list.length<5?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
+			data.count<=5?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
 		},'json');
 		
 	}
+	is_end = 1;
 	$('#editor'). wysiwyg();
 	var formData = new FormData();
 	// $(document).ready(function(){
@@ -415,18 +418,32 @@ ul{ padding:5px; margin: 0; }
 	});
 
 	$('.next').click(function(){
-		sessionStorage.getItem('art_page')?sessionStorage.setItem('art_page',Number(sessionStorage.getItem('art_page'))+1):sessionStorage.setItem('art_page',2);
-		$.get('article_list',{page:sessionStorage.getItem('art_page')},function(data,stauts){
-			art_list.$data.list = data.list;
-			data.list.length<5?document.getElementById('next').className+= ' '+'disabled':document.getElementById('next').className='next';
-		},'json');
+		if(is_end==1 && list_count!=5){
+			sessionStorage.getItem('art_page')?sessionStorage.setItem('art_page',Number(sessionStorage.getItem('art_page'))+1):sessionStorage.setItem('art_page',2);
+			$.get('article_list',{page:sessionStorage.getItem('art_page')},function(data,stauts){
+				art_list.$data.list = data.list;
+				if(data.list.length<5){
+					document.getElementById('next').className+= ' '+'disabled';
+					is_end=2;
+					// sessionStorage.setItem
+				}else{
+					document.getElementById('next').className='next';
+				}
+				$('#previous').removeClass('disabled');
+			},'json');
+		}
 	});
 
 	$('.previous').click(function(){
-		sessionStorage.setItem('art_page',Number(sessionStorage.getItem('art_page'))-1);
-		$.get('article_list',{page:sessionStorage.getItem('art_page')},function(data,stauts){
-			art_list.$data.list = data.list;
-		},'json');
+		if(sessionStorage.getItem('art_page')!=1){
+			sessionStorage.setItem('art_page',Number(sessionStorage.getItem('art_page'))-1);
+			$.get('article_list',{page:sessionStorage.getItem('art_page')},function(data,stauts){
+				art_list.$data.list = data.list;
+				$('#next').removeClass('disabled');
+			},'json');
+			is_end=1;
+			if(sessionStorage.getItem('art_page')==1) document.getElementById('previous').className+= ' '+'disabled';
+		}
 	});
 
 </script>

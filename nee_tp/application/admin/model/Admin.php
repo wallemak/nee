@@ -160,7 +160,9 @@ class Admin extends Model
 
     public function list($data)
     {
+        $count = Db::name('article')->count();
     	$list = DB::name('article')->page($data['page'],$data['limit'])->select();
+        $list['count'] = $count;
     	return $list;
     }
 

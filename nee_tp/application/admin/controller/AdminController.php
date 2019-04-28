@@ -56,6 +56,8 @@ class AdminController extends Controller
         $list = $this->model->list($data);
         $class_list = Db::name('classify')->field('id,name')->select();
         $json = json_decode('{}');
+        $json->count = $list['count'];
+        unset($list['count']);
         $json->list = $list;
         $json->class_list = $class_list;
 
