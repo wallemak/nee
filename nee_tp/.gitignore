@@ -1,4 +1,4 @@
 *.log
 .idea
-config/database.php
-./public/static/images/article
+/config/database.php
+/public/static/images/article
