@@ -36,7 +36,11 @@ Route::group('admin',function(){
 
 } )->middleware('Login');
 
-
+Route::group('home',function(){
+	Route::get('nav','home/NavController/index');
+	Route::post('nav_add','home/NavController/nav_add');
+	Route::post('nav_edit','home/NavController/nav_edit');
+});
 Route::group('',function(){
 	Route::get('/','home/IndexController/index');
 	// Route::get('article_list','home/')
