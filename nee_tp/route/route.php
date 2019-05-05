@@ -44,6 +44,7 @@ Route::group('home',function(){
 Route::group('',function(){
 	Route::get('/','home/IndexController/index');
 	// Route::get('article_list','home/')
+	// 
 });
 Route::post('login','admin/LoginController/login');
 Route::get('test', 'admin/AdminController/test');
