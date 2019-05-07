@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>login</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/login/style.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/login/body.css"/> 
+<style type="text/css">
+body{
+	background:url(__IMAGES__/cloud.jpg) 0 bottom repeat-x  #049ec4;
+}
+#content form input[type="password"] {
+	background: #eae7e7 url(__IMAGES__/8bcLQqF.png) no-repeat;
+}
+#content form input[type="text"] {
+	background: url(__IMAGES__/8bcLQqF.png) 0 -112px no-repeat;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<section id="content">
+			<textarea id="text" style="display:none">
+				-----BEGIN PUBLIC KEY-----
+				MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAsDKxVl0gZvPjCUKonPMk
+				dVfXVWeISor47IgqmoJhqKVXuXcQVWv0bsaXA3FDDXbYH07tiJ7/5Lr24BlBOITN
+				YoraL8zlRN17DKiShVrKzMBBT/mYiOCj0PIONHfRZZjd59McHm/pEW8GnIfF0eun
+				Pjb359vluT/TBbpn6gH+7RImBUuWweOd2PkEiiryzphWietHRXdy+01laqQXekTV
+				olfVNq5jAMKnZblFyl7vexUo6LevZtl5E8RBlRW1ti2PORIzWxHRImpfn0qvAbkI
+				xQsZ/7W+wVwBi9IDMe+aRX25jEzxpLfAhIElIoCRekU+pi6pCXvWC4J9a6+PZftU
+				3O7mu0UE7qaD/fNgh40KGnWAucHdjPUgtN5SMFK4BnLKLoEZ9C5Fxf0yh3AoYmrf
+				0h7LvA1WiTLvLzFs+XwrjA8gVwF1fB07VW6ujhuUgssgoDcM2vcPgVOyx7Tr1F+I
+				Qz8KIe3+6z1yj7ZmS/Ixh3uGwJE5y9LSwA0JOP6jsj4o6HtR2o1ELLJVBgRNQ20Q
+				S5IsiKmdqZWk4VpcgZKZKLOdez68QrOi5bj4CbMhdNtTo0UfGe4zSBckNgnOJBpL
+				N8bJSeUAbMnH3GGd4RE5TH34iXVkF+916azekojuoiz758kBTamNoLrkwq+BQYjM
+					jvMAjui2lBKpo+RatQN7qXkCAwEAAQ==
+				-----END PUBLIC KEY-----
+			</textarea>
+			<form action="" method="post" onsubmit="return false" >
+				<h1>后台登录</h1>
+				<div>
+					<input type="text" placeholder="用户名" requiwhite="" id="username" name="user" />
+				</div>
+				<div>
+					<input type="password" placeholder="密码" requiwhite="" id="password" name="password" />
+				</div>
+				 <div class="">
+					<span class="help-block u-errormessage" id="js-server-helpinfo">&nbsp;</span>
+				</div> 
+				<div>
+					<!-- <input type="submit" value="Log in" /> -->
+					<!-- <input type="submit" value="登录" class="btn btn-primary" id="js-btn-login"/> -->
+					<input type="submit" value="登录" class="btn btn-primary" id="submit"   />
+					<a href="#">忘记密码?</a>
+					<!-- <a href="#">Register</a> -->
+				</div>
+			</form><!-- form -->
+		</section><!-- content -->
+	</div>
+<!-- container -->
+</body>
+
+<script type="text/javascript" src="__JS__/jquery.js"></script>
+<script type="text/javascript" src="__JS__/jsencrypt.min.js"></script>
+<script type="text/javascript" src="__JS__/admin/layer/layer.js"></script>
+
+
+<script type="text/javascript">
+	var public_key = $("#text").val();
+	var encrypt = new JSEncrypt();
+    encrypt.setPublicKey(public_key);
+
+	$("#submit").click(function (){
+
+		var encrypted = encrypt.encrypt($("#password").val());
+		// var data = new array();
+		var user = $("#username").val();
+		var password = encrypted;
+		if($("#password").val() !=''){
+			$.ajax({
+				url:'/login',
+				// url:,
+				type:'post',
+				data:{'username':user,'password':password},
+				dataType:'json',
+				success:function(data){
+					if(data.error == 'ok'){
+						sessionStorage.setItem("token", data.token);
+						layer.msg(data.content,{
+							time:3000,
+							end:function(){
+								window.location.href='/admin';
+							}
+						});
+					}else{
+						layer.open({
+						title:data.error,
+						content: data.content,
+						btnAlign:'c',
+						shade :0.5,
+						anim: 5,
+						closeBtn :0
+					    });
+					}
+				},
+				error:function(e){
+					console.log(e);
+				}
+			});
+		}
+
+	});
+</script>
+</html>

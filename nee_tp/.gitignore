@@ -1,0 +1,4 @@
+*.log
+.idea
+/config/database.php
+/public/static/images/article
