@@ -19,7 +19,8 @@ class NavController extends Controller
 
     public function index()
     {
-        
+        $all = Db::name('classify')->field('name')->select();
+        return jsonp($all);
     }
 
     public function nav_edit()

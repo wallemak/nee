@@ -32,14 +32,11 @@ Route::group('admin',function(){
 	Route::post('classify_edit','admin/Classify/edit');
 	Route::post('classify_add','admin/Classify/add');
 	Route::post('classify_del','admin/Classify/del');
-
-
+	
 } )->middleware('Login');
 
 Route::group('home',function(){
 	Route::get('nav','home/NavController/index');
-	Route::post('nav_add','home/NavController/nav_add');
-	Route::post('nav_edit','home/NavController/nav_edit');
 });
 Route::group('',function(){
 	Route::get('/','home/IndexController/index');
