@@ -2,17 +2,20 @@ ul ,ol ,li { list-style-type:none; padding:0; margin:0; line-height: 1.5;}
 .container { padding-left:0;padding-right:0; }
 .container .row{ margin:0; }
 .col-*-* { padding:0; }
-#nav{background-color:blue;left:auto;width:30%;height: 100%;position: fixed;}
-.nav_header{ padding:20px; }
+#nav{background-color:skyblue;left:auto;width:30%;height: 100%;position: fixed;}
+.nav_header{ padding:20px; position:relative; }
 #content{background-color:yellow;width:70%; height:100%;margin-left:30%;}
 .logo img{ width:56px;padding: 5px;border-radius:50%; }
-.middle{padding-left:60px; margin:0;width:100%; vertical-align:middle;}
+.middle{padding-left:60px; margin:0;width:100%; vertical-align:middle;display: none;}
 .nav_body { height:100%; }
+.nav_ico{ position:absolute;right:50px; top:33px; cursor:pointer}
+.nav_ico img{width:28px;}
+
+
 @media (max-width: 1024px)
 {
 #nav{ left:auto;width:100%; z-index:50;height:auto;}
 #content{width:100%; height:100%;margin:0 auto;display: block;position:relative;}
 .con_body{ padding-top:80px; }
 .middle{ margin:0;width:100%;vertical-align:middle; }
-
 }

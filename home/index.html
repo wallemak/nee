@@ -16,13 +16,12 @@
 	<nav id="nav">
 		<div class="nav_header">
 			<a href="JavaScript:void(0)" class="logo"><img src="images/cover.jpg"/></a>
+			<a class="nav_ico" ><img src="images/list.png" name="list" /></a>
 		</div>
 		<section class="nav_body">
 			<div class=" middle">
-				<ul>
-					<li>1</li>
-					<li>2</li>
-					<li>3</li>
+				<ul id="mynav">
+					<li v-for="item in nav"><a :href=" item.name ">{{ item.name }}</a></li>
 				</ul>
 			</div>
 		</section>
