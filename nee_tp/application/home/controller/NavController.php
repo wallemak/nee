@@ -17,11 +17,7 @@ class NavController extends Controller
         parent::__construct();
     }
 
-    public function index()
-    {
-        $all = Db::name('classify')->field('name')->select();
-        return jsonp($all);
-    }
+
 
     public function nav_edit()
     {
@@ -31,5 +27,10 @@ class NavController extends Controller
     public function nav_add()
     {
 
+    }
+
+    public function all_nav()
+    {
+        return jsonp(Db::name('classify')->field('name')->select());
     }
 }

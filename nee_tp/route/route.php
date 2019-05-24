@@ -33,14 +33,14 @@ Route::group('admin',function(){
 	Route::post('classify_add','admin/Classify/add');
 	Route::post('classify_del','admin/Classify/del');
 	
-} )->middleware('Login');
+} );
+// ->middleware('Login');
 
 Route::group('home',function(){
-	Route::get('nav','home/NavController/index');
+	Route::get('all_nav','home/NavController/all_nav');
 });
 Route::group('',function(){
 	Route::get('/','home/IndexController/index');
-	// Route::get('article_list','home/')
 	// 
 });
 Route::post('login','admin/LoginController/login');
