@@ -10,7 +10,8 @@ ul ,ol ,li { list-style-type:none; padding:0; margin:0; line-height: 1.5;}
 .nav_body { height:100%;position:absolute;background-color:#f1f1f1;width:100%; display:none;}
 .nav_ico{ position:absolute;right:50px; top:33px; cursor:pointer}
 .nav_ico img{width:28px;}
-
+.nav_foot{ display:block;height:100%; vertical-align:middle;}
+#weather{ width:65%;vertical-align:middle;background-color:red; margin:0 auto;text-align: content;}
 
 @media (max-width: 1024px)
 {
